@@ -10,6 +10,11 @@
       "StackName": "amplify-polygon-dev-01349",
       "StackId": "arn:aws:cloudformation:us-east-1:470739242818:stack/amplify-polygon-dev-01349/b23deb10-0e57-11ee-81ef-0ee345da0ebd",
       "AmplifyAppId": "d2358emokmfwl3"
+    },
+    "categories": {
+      "auth": {
+        "polygon5a45cfee": {}
+      }
     }
   }
 }
