@@ -1,11 +1,12 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
+import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
 import 'package:polygon/features/auth/services/auth_service.dart';
 import 'package:riverpod/riverpod.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  AuthService authService = ref.read(AuthServiceProvider);
+  AuthService authService = ref.read(authServiceProvider);
   return AuthRepository(authService);
 });
 
@@ -15,8 +16,8 @@ class AuthRepository {
   final AuthService authService;
 
 // TODO: PARAMETERS ****
-  Future<SignInResult?> manualSignIn() async {
-    return authService.signIn();
+  Future<SignInResult?> manualSignIn(SignInEntry entry) async {
+    return authService.signIn(entry);
   }
 
   Future<SignInResult?> amazonSignIn() async {

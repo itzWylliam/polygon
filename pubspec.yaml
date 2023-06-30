@@ -27,8 +27,8 @@ dependencies:
   go_router: ^8.1.0
   riverpod: ^2.3.6
   flutter_riverpod: ^2.3.6
+  flutter_hooks: ^0.18.6
   hooks_riverpod: ^2.3.6
-  flutter_login: ^4.1.1
   font_awesome_flutter: ^10.4.0
 
   cupertino_icons: ^1.0.2

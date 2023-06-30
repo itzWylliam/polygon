@@ -1,7 +1,5 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polygon/features/auth/controllers/auth_controller.dart';
 
@@ -12,35 +10,10 @@ class SignInPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-              // COMPLETE: disable keyboard when background is clicked
+        // COMPLETE: disable keyboard when background is clicked
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: FlutterLogin(
-        title: 'Polygon',
-        onLogin: (_) async {
-          manualSignIn(ref);
-        },
-        onSignup: (_) async {
-          signUp(ref);
-        },
-        onRecoverPassword: onRecoverPassword,
-        loginProviders: <LoginProvider>[
-          LoginProvider(
-            icon: FontAwesomeIcons.google,
-            label: 'Google',
-            callback: () async {
-              googleLogin(ref);
-            },
-          ),
-          LoginProvider(
-            icon: FontAwesomeIcons.amazon,
-            label: 'Amazon',
-            callback: () async {
-              amazonLogin(ref);
-            },
-          ),
-        ],
-      ),
+      child: null,
     );
   }
 
@@ -78,7 +51,5 @@ class SignInPage extends HookConsumerWidget {
   }
 
   //
-  Future<void> signUp(WidgetRef) async {
-
-  }
+  Future<void> signUp(WidgetRef) async {}
 }

@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
 import 'package:polygon/features/auth/data/Auth_Repository.dart';
 
@@ -15,12 +16,12 @@ class AuthController {
   AuthController(this.ref);
   final Ref ref;
 
-// NOTE: AMAZON SIGN IN METHOD
+// COMPLETE: AMAZON SIGN IN METHOD
 // TODO: add logic to validate result
   Future<SignInResult?> amazonSignIn() async {
     return ref.read(authRepositoryProvider).amazonSignIn();
   }
-// NOTE: GOOGLE SIGN IN METHOD
+// COMPLETE: GOOGLE SIGN IN METHOD
 // TODO: add logic to validate result
   Future<SignInResult?> googleSignIn() async {
     return ref.read(authRepositoryProvider).googleSignIn();
@@ -42,10 +43,15 @@ class AuthController {
   }
 
 // NOTE: MANUAL SIGN IN
-// TODO: ADD PARAMETERS *********
 // TODO: add logic to validate result
-  Future<void> manualSignIn() async {
-    await ref.read(authRepositoryProvider).manualSignIn();
+  Future<SignInResult?> manualSignIn({
+    required String username,
+    required String password,
+    BuildContext? context,
+  }) async {
+    final entry = SignInEntry(username: username, password: password, context: context);
+
+    return ref.read(authRepositoryProvider).manualSignIn(entry);
   }
 
 // NOTE: USER PERSONAL DATA ACCESS & ALTER
