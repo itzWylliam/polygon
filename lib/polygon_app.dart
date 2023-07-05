@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:polygon/features/auth/ui/signin_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:polygon/common/navigation/routers.dart';
+import 'package:polygon/common/utils/theme.dart';
 
-class Polygon extends StatelessWidget {
+class Polygon extends ConsumerWidget {
   const Polygon({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SignInPage(),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
+    
+      theme: getPrimaryTheme(context, ref.watch(themeProvider)),
+      
+      debugShowCheckedModeBanner: false,
+      routerConfig: generalRouter,
     );
 
     // return MaterialApp.router(
-    //   // TODO: Configure router 
+    //   // TODO: Configure router
     //   routerConfig: null,
     // );
   }
