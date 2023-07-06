@@ -97,15 +97,19 @@ CustomTransitionPage buildPageWithSlideUpTransition<T>({
   required GoRouterState state,
   required Widget child,
 }) {
+
+  const begin = Offset(0.0, 1.0);
+  const end = Offset.zero;
+  const curve = Curves.ease;
+
+  var tween = Tween(begin: begin, end: end,).chain(CurveTween(curve: curve));
+
   return CustomTransitionPage(
     key: state.pageKey,
     child: child,
     transitionsBuilder: (context, animation, secondaryAnimation, child) =>
         SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0.0, 1.0),
-            end: Offset.zero,
-          ).animate(animation),
+          position: animation.drive(tween),
           child: child,
         ),
   );

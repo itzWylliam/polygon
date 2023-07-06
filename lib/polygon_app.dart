@@ -8,12 +8,18 @@ class Polygon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-    
-      theme: getPrimaryTheme(context, ref.watch(themeProvider)),
+    return GestureDetector(
+      onTap: () {
+        // COMPLETE: disable keyboard when background is clicked
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: MaterialApp.router(
       
-      debugShowCheckedModeBanner: false,
-      routerConfig: generalRouter,
+        theme: getPrimaryTheme(context, ref.watch(themeProvider)),
+        
+        debugShowCheckedModeBanner: false,
+        routerConfig: generalRouter,
+      ),
     );
 
     // return MaterialApp.router(

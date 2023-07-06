@@ -9,6 +9,7 @@ import 'package:polygon/common/ui/text_button_v1.dart';
 import 'package:polygon/features/auth/controllers/auth_controller.dart';
 import 'package:polygon/common/ui/form_field_v1.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/features/auth/ui/signup_page.dart';
 
 double _elementOpacity = 1;
 bool _loading = false;
@@ -96,7 +97,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
       height: 50,
       text: "Join Now",
       onTap: () async {
-        context.pushNamed(PolygonRoute.signup.name);
+        this.context.pushNamed(PolygonRoute.signup.name);
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(
@@ -108,85 +109,79 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
       componentOpacity: _elementOpacity,
     );
 
-    return GestureDetector(
-      onTap: () {
-        // COMPLETE: disable keyboard when background is clicked
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            // NOTE: solve bottom overflow caused by keyboard pop up
-            child: Center(
-                child: _loading
-                    ? Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: LoadingScreen(
-                          path: PolygonRoute.home.name,
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(50.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TweenAnimationBuilder(
-                              tween: Tween(
-                                begin: 1,
-                                end: _elementOpacity,
-                              ),
-                              duration: const Duration(
-                                milliseconds: 300,
-                              ),
-                              builder: (_, value, __) => Opacity(
-                                opacity: value.toDouble(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 50,
-                                    ),
-                                    iconWidgetRow,
-                                    const SizedBox(height: 25),
-                                    welcomeContainer,
-                                  ],
-                                ),
-                              ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          // NOTE: solve bottom overflow caused by keyboard pop up
+          child: Center(
+              child: _loading
+                  ? Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: LoadingScreen(
+                        path: PolygonRoute.home.name,
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(50.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TweenAnimationBuilder(
+                            tween: Tween(
+                              begin: 1,
+                              end: _elementOpacity,
                             ),
-                            const SizedBox(
-                              height: 50,
+                            duration: const Duration(
+                              milliseconds: 300,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                            builder: (_, value, __) => Opacity(
+                              opacity: value.toDouble(),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  phoneNumField,
                                   const SizedBox(
-                                    height: 25,
+                                    height: 50,
                                   ),
-                                  passwordField,
-                                  const SizedBox(
-                                    height: 40,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      signUpButton,
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      signInButton,
-                                    ],
-                                  )
+                                  iconWidgetRow,
+                                  const SizedBox(height: 25),
+                                  welcomeContainer,
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      )),
-          ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Column(
+                              children: [
+                                phoneNumField,
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                passwordField,
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    signUpButton,
+                                    const SizedBox(
+                                      width: 50,
+                                    ),
+                                    signInButton,
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
         ),
       ),
     );
@@ -195,7 +190,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
 // TODO: CHANGE - - - TESTING
   Future<String?> manualSignIn(WidgetRef ref) async {
     final result = await ref.read(authControllerProvider).manualSignIn(
-          username: phoneNumField.currentCountryCode()! +
+          username: phoneNumField.currentCountryCode(SpecificFieldValueType.phonenumber)! +
               phoneNumFieldController.text,
           password: passwordFieldController.text,
         );

@@ -32,11 +32,11 @@ class FormFieldV1 extends StatefulWidget {
   @override
   State<FormFieldV1> createState() => fieldState;
 
-  String? currentCountryCode() => fieldState.currentCountryCode();
+  String? currentCountryCode(SpecificFieldValueType specificFieldValueType) =>
+      fieldState.currentCountryCode(specificFieldValueType);
 }
 
-class _formFieldState extends State<FormFieldV1>
-    with SingleTickerProviderStateMixin {
+class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   // Animation Parameters
   double bottomAnimationVal = 0;
   double opacityAnimationVal = 0;
@@ -47,7 +47,7 @@ class _formFieldState extends State<FormFieldV1>
   late TextEditingController formFieldController;
   SpecificFieldValueType? specificValueType;
   late String formValueHintText;
-  late CountryCode? countryCode;
+  late CountryCode? countryCode = CountryCode();
 
   FocusNode currentFocus = FocusNode();
 
@@ -115,7 +115,7 @@ class _formFieldState extends State<FormFieldV1>
                     if (await validateInput(
                       specificValueType!,
                       value,
-                      countryCode: currentCountryCode(),
+                      countryCode: currentCountryCode(specificValueType!),
                     )) {
                       setState(() {
                         bottomAnimationVal = 0;
@@ -149,8 +149,8 @@ class _formFieldState extends State<FormFieldV1>
               width: widget.formFade
                   ? 0
                   : (specificValueType == SpecificFieldValueType.phonenumber
-                      ? 215
-                      : 300),
+                      ? MediaQuery.of(context).size.width - 175
+                      : MediaQuery.of(context).size.width - 100),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: bottomAnimationVal),
                 curve: Curves.easeOutQuint,
@@ -189,32 +189,33 @@ class _formFieldState extends State<FormFieldV1>
                   width: 0,
                 ),
         ),
-        Positioned.fill(
-          child: AnimatedPadding(
-            curve: Curves.easeIn,
-            duration: Duration(milliseconds: fade_duration_millsec),
-            padding: paddingAnimationVal,
-            child: TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: widget.formFade ? 0 : 1),
-              curve: Curves.easeIn,
-              duration: Duration(milliseconds: fade_duration_millsec),
-              builder: ((context, value, child) => Opacity(
-                    opacity: value,
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.0)
-                            .copyWith(bottom: 0),
-                        child: Icon(Icons.check_rounded,
-                            size: 27,
-                            color: _animation.value // _animation.value,
-                            ),
-                      ),
-                    ),
-                  )),
-            ),
-          ),
-        ),
+        // TODO: to be implemented - - - validation decoration
+        // Positioned.fill(
+        //   child: AnimatedPadding(
+        //     curve: Curves.easeIn,
+        //     duration: Duration(milliseconds: fade_duration_millsec),
+        //     padding: paddingAnimationVal,
+        //     child: TweenAnimationBuilder<double>(
+        //       tween: Tween(begin: 0, end: widget.formFade ? 0 : 1),
+        //       curve: Curves.easeIn,
+        //       duration: Duration(milliseconds: fade_duration_millsec),
+        //       builder: ((context, value, child) => Opacity(
+        //             opacity: value,
+        //             child: Align(
+        //               alignment: AlignmentDirectional.centerEnd,
+        //               child: Padding(
+        //                 padding: EdgeInsets.symmetric(horizontal: 12.0)
+        //                     .copyWith(bottom: 0),
+        //                 child: Icon(Icons.check_rounded,
+        //                     size: 27,
+        //                     color: _animation.value // _animation.value,
+        //                     ),
+        //               ),
+        //             ),
+        //           )),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -244,8 +245,8 @@ class _formFieldState extends State<FormFieldV1>
   }
 
   // NOTE: maybe using try-catch???......
-  String? currentCountryCode() {
-    if (specificValueType == SpecificFieldValueType.phonenumber) {
+  String? currentCountryCode(SpecificFieldValueType specificFieldValueType) {
+    if (specificFieldValueType == SpecificFieldValueType.phonenumber) {
       return countryCode!.dialCode.toString();
     } else {
       safePrint(
@@ -254,8 +255,8 @@ class _formFieldState extends State<FormFieldV1>
     }
   }
 
-  String? currentCountryIndex() {
-    if (specificValueType == SpecificFieldValueType.phonenumber) {
+  String? currentCountryIndex(SpecificFieldValueType specificFieldValueType) {
+    if (specificFieldValueType == SpecificFieldValueType.phonenumber) {
       return countryCode!.code.toString();
     } else {
       safePrint(

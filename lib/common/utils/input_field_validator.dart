@@ -3,6 +3,13 @@ import 'package:phone_number/phone_number.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
 
 Future<bool> validateInput(SpecificFieldValueType specificValueType, String value, {String? countryCode}) async {
+
+  safePrint(specificValueType);
+
+  if (value == '') {
+    return false;
+  }
+
   switch (specificValueType) {
       case SpecificFieldValueType.email:
         return isValidEmail(value);
