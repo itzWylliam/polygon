@@ -34,6 +34,8 @@ class FormFieldV1 extends StatefulWidget {
 
   String? currentCountryCode(SpecificFieldValueType specificFieldValueType) =>
       fieldState.currentCountryCode(specificFieldValueType);
+
+  String? getPhoneNumber() => fieldState.getPhoneNumber();
 }
 
 class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
@@ -48,6 +50,9 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   SpecificFieldValueType? specificValueType;
   late String formValueHintText;
   late CountryCode? countryCode = CountryCode();
+  late String? currentPhoneNum;
+
+  late double phoneFieldPadding = 0.0;
 
   FocusNode currentFocus = FocusNode();
 
@@ -55,7 +60,9 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   void initState() {
     specificValueType = widget.specificFieldValueType;
     formValueHintText = widget.formHintText;
+    currentPhoneNum = currentCountryCode(specificValueType!);
     formFieldController = widget.formFieldController;
+    phoneFieldPadding = (specificValueType == SpecificFieldValueType.phonenumber ? 10.0 : 0.0);
     if (specificValueType == SpecificFieldValueType.phonenumber) {
       countryCode = CountryCode(code: 'US', dialCode: '+1');
     } else {
@@ -97,46 +104,62 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
               margin: specificValueType == SpecificFieldValueType.phonenumber
                   ? const EdgeInsets.only(left: 60)
                   : const EdgeInsets.only(left: 0),
-              child: TextFormField(
-                textInputAction: widget.textInputAction == null
-                    ? TextInputAction.done
-                    : widget.textInputAction,
-                onTap: () => currentFocus.requestFocus(),
-                controller: formFieldController,
-                focusNode: currentFocus,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: formValueHintText,
-                ),
-                keyboardType: keyboardType(),
-                onChanged: (value) async {
-                  // TODO: add validation text
-                  if (value.isNotEmpty) {
-                    if (await validateInput(
-                      specificValueType!,
-                      value,
-                      countryCode: currentCountryCode(specificValueType!),
-                    )) {
-                      setState(() {
-                        bottomAnimationVal = 0;
-                        opacityAnimationVal = 1;
-                        paddingAnimationVal = const EdgeInsets.only(top: 0);
-                      });
-                      _animationController.forward();
+              child: Padding(
+                padding: EdgeInsets.only(left: phoneFieldPadding,),
+                child: TextFormField(
+                  textInputAction: widget.textInputAction == null
+                      ? TextInputAction.done
+                      : widget.textInputAction,
+                  onTap: () => currentFocus.requestFocus(),
+                  controller: formFieldController,
+                  focusNode: currentFocus,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: formValueHintText,
+                  ),
+                  keyboardType: keyboardType(),
+                  onChanged: (value) async {
+                    // TODO: add validation text
+                    if (value.isNotEmpty) {
+                      if (await validateInput(
+                        specificValueType!,
+                        value,
+                        countryCode: currentCountryCode(specificValueType!),
+                      )) {
+                        setState(() {
+              
+                          // NOTE: phone number 
+                          currentPhoneNum = currentCountryCode(specificValueType!).toString() + value;
+              
+                          bottomAnimationVal = 0;
+                          opacityAnimationVal = 1;
+                          paddingAnimationVal = const EdgeInsets.only(top: 0);
+                        });
+                        _animationController.forward();
+                      } else {
+                        _animationController.reverse();
+                        setState(() {
+              
+                          // NOTE: phone number
+                          currentPhoneNum = currentCountryCode(specificValueType!)! + value;
+              
+                          bottomAnimationVal = 1;
+                          opacityAnimationVal = 0;
+                          paddingAnimationVal = const EdgeInsets.only(top: 22);
+                        });
+                      }
                     } else {
                       _animationController.reverse();
                       setState(() {
-                        bottomAnimationVal = 1;
-                        opacityAnimationVal = 0;
-                        paddingAnimationVal = const EdgeInsets.only(top: 22);
+              
+                        // NOTE: phone number
+                        currentPhoneNum = currentCountryCode(specificValueType!);
+              
+                        bottomAnimationVal = 0;
                       });
                     }
-                  } else {
-                    setState(() {
-                      bottomAnimationVal = 0;
-                    });
-                  }
-                },
+                  },
+                ),
               ),
             ),
           ),
@@ -149,7 +172,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
               width: widget.formFade
                   ? 0
                   : (specificValueType == SpecificFieldValueType.phonenumber
-                      ? MediaQuery.of(context).size.width - 175
+                      ? MediaQuery.of(context).size.width - 175 - phoneFieldPadding
                       : MediaQuery.of(context).size.width - 100),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: bottomAnimationVal),
@@ -177,7 +200,9 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
                     showOnlyCountryWhenClosed: false,
                     initialSelection: 'US',
                     onChanged: (value) {
-                      countryCode = value;
+                      setState(() {
+                        countryCode = value;
+                      });
                     },
                     onInit: (value) {
                       countryCode = value;
@@ -190,32 +215,32 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
                 ),
         ),
         // TODO: to be implemented - - - validation decoration
-        // Positioned.fill(
-        //   child: AnimatedPadding(
-        //     curve: Curves.easeIn,
-        //     duration: Duration(milliseconds: fade_duration_millsec),
-        //     padding: paddingAnimationVal,
-        //     child: TweenAnimationBuilder<double>(
-        //       tween: Tween(begin: 0, end: widget.formFade ? 0 : 1),
-        //       curve: Curves.easeIn,
-        //       duration: Duration(milliseconds: fade_duration_millsec),
-        //       builder: ((context, value, child) => Opacity(
-        //             opacity: value,
-        //             child: Align(
-        //               alignment: AlignmentDirectional.centerEnd,
-        //               child: Padding(
-        //                 padding: EdgeInsets.symmetric(horizontal: 12.0)
-        //                     .copyWith(bottom: 0),
-        //                 child: Icon(Icons.check_rounded,
-        //                     size: 27,
-        //                     color: _animation.value // _animation.value,
-        //                     ),
-        //               ),
-        //             ),
-        //           )),
-        //     ),
-        //   ),
-        // ),
+        Positioned.fill(
+          child: AnimatedPadding(
+            curve: Curves.easeIn,
+            duration: Duration(milliseconds: fade_duration_millsec),
+            padding: paddingAnimationVal,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: widget.formFade ? 0 : 1),
+              curve: Curves.easeIn,
+              duration: Duration(milliseconds: fade_duration_millsec),
+              builder: ((context, value, child) => Opacity(
+                    opacity: value,
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0)
+                            .copyWith(bottom: 0),
+                        child: Icon(Icons.check_rounded,
+                            size: 27,
+                            color: _animation.value // _animation.value,
+                            ),
+                      ),
+                    ),
+                  )),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -247,6 +272,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   // NOTE: maybe using try-catch???......
   String? currentCountryCode(SpecificFieldValueType specificFieldValueType) {
     if (specificFieldValueType == SpecificFieldValueType.phonenumber) {
+      // safePrint(countryCode!.dialCode.toString());
       return countryCode!.dialCode.toString();
     } else {
       safePrint(
@@ -263,5 +289,9 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
           "Not a phone number input field for getting phone number value.");
       return null;
     }
+  }
+
+  String? getPhoneNumber() {
+    return currentPhoneNum;
   }
 }

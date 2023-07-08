@@ -4,8 +4,6 @@ import 'package:polygon/common/utils/specific_field_val.dart';
 
 Future<bool> validateInput(SpecificFieldValueType specificValueType, String value, {String? countryCode}) async {
 
-  safePrint(specificValueType);
-
   if (value == '') {
     return false;
   }
@@ -20,8 +18,10 @@ Future<bool> validateInput(SpecificFieldValueType specificValueType, String valu
         if (countryCode == null) {
           safePrint("Invalid Country Dial Code: No Input");
           return false;
-        } else if (await PhoneNumberUtil().validate(value, regionCode: countryCode!)) {
-          return true;
+        } else if (await PhoneNumberUtil().validate(value, regionCode: countryCode) == false) {
+          // safePrint(countryCode + value);
+          safePrint("validation result: ${await PhoneNumberUtil().validate(value, regionCode: countryCode)}");
+          return false;
         } else {
           return false;
         }

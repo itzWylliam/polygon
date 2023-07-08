@@ -8,10 +8,13 @@ import 'package:polygon/common/ui/form_field_v1.dart';
 import 'package:polygon/common/utils/animation/shake_widget.dart';
 import 'package:polygon/common/utils/input_field_validator.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/features/auth/controllers/auth_controller.dart';
 
 late TextEditingController phoneNumSignUpController = TextEditingController();
 late TextEditingController emailSignUpController = TextEditingController();
 late TextEditingController passwordSignUpController = TextEditingController();
+
+// TODO: on submit => store in datastore
 
 FormFieldV1 phoneNumSignUpField = FormFieldV1(
   formFade: false,
@@ -25,7 +28,12 @@ FormFieldV1 emailSignUpField = FormFieldV1(
   formHintText: "Email",
   specificFieldValueType: SpecificFieldValueType.email,
 );
-late FormFieldV1 passwordSignUpField;
+FormFieldV1 passwordSignUpField = FormFieldV1(
+  formFade: false,
+  formFieldController: passwordSignUpController,
+  formHintText: "Password",
+  specificFieldValueType: SpecificFieldValueType.password,
+);
 
 class SignUpPage extends HookConsumerWidget {
   int currentSignUpStatePage;
@@ -63,13 +71,37 @@ class SignUpPage extends HookConsumerWidget {
             // TODO: BUILD BUTTON FUNCTION
             onChange: (value) async {
               switch (value) {
-                case 0: // NOTE: Phone Number Page
+                case 1: // NOTE: Phone Number Page
                   if (await validateInput(
-                    SpecificFieldValueType.phonenumber,
-                    phoneNumSignUpController.text,
-                    countryCode: phoneNumSignUpField.currentCountryCode(SpecificFieldValueType.phonenumber),
-                  ) == false) {
-                    _shakeKeyPhoneNum.currentState?.shake();
+                        phoneNumSignUpField.specificFieldValueType!,
+                        phoneNumSignUpController.text,
+                        countryCode: phoneNumSignUpField.currentCountryCode(
+                            phoneNumSignUpField.specificFieldValueType!),
+                      ) ==
+                      false) {
+                    // safePrint("Country Index: ${phoneNumSignUpField.currentCountryIndex(SpecificFieldValueType.phonenumber)}");
+                    safePrint(
+                        "Country code: ${phoneNumSignUpField.currentCountryCode(SpecificFieldValueType.phonenumber)}");
+                    signUpStateKey.currentState?.previous();
+                    Future.delayed(
+                      Duration(milliseconds: 350),
+                    ).then((value) {
+                      _shakeKeyPhoneNum.currentState?.shake();
+                    });
+                  }
+                  break;
+                case 2: // NOTE: Phone Number Page
+                  if (await validateInput(
+                        emailSignUpField.specificFieldValueType!,
+                        emailSignUpController.text,
+                      ) ==
+                      false) {
+                    signUpStateKey.currentState?.previous();
+                    Future.delayed(
+                      Duration(milliseconds: 350),
+                    ).then((value) {
+                      _shakeKeyEmail.currentState?.shake();
+                    });
                   }
               }
               currentSignUpStatePage.value = value;
@@ -79,12 +111,58 @@ class SignUpPage extends HookConsumerWidget {
             showNextButton: true,
             next: Text("Next"),
             done: Text("Sign Up"),
-            onDone: () {},
+            onDone: () async {
+              if (await validateInput(
+                    phoneNumSignUpField.specificFieldValueType!,
+                    phoneNumSignUpController.text,
+                    countryCode: phoneNumSignUpField
+                        .currentCountryCode(phoneNumSignUpField.specificFieldValueType!),
+                  ) ==
+                  false) {
+                // NOTE: navigate back
+                // var i = 2;
+                // while (i >= 0) {
+                //   signUpStateKey.currentState?.previous();
+                //   i--;
+                // }
+              } else if (await validateInput(
+                emailSignUpField.specificFieldValueType!,
+                emailSignUpController.text,
+              )) {
+                // NOTE: navigate back
+                // var i = 1;
+                // while (i >= 0) {
+                //   signUpStateKey.currentState?.previous();
+                //   i--;
+                // }
+              } else if (await validateInput(
+                passwordSignUpField.specificFieldValueType!,
+                passwordSignUpController.text,
+              )) {
+              } else {
+                context.pop();
+              }
+            },
             showDoneButton: true,
           ),
         ),
       ),
     );
+  }
+
+  // TODO: SIGN UP LOGIC
+  Future<void> signUp(WidgetRef ref) async {
+    final result = await ref.read(authControllerProvider).signUp(
+          email: emailSignUpController.text,
+          password: passwordSignUpController.text,
+          phoneNum: phoneNumSignUpController.text,
+        );
+
+    if (result != null && result.isSignUpComplete) {
+      safePrint("Manual Sign Up Successful!");
+    } else {
+      safePrint("Manual Sign Up Failed.");
+    }
   }
 
   Widget getPhoneNumPage(GlobalKey key) {
@@ -114,12 +192,7 @@ class SignUpPage extends HookConsumerWidget {
               shakeCount: 3,
               shakeOffset: 10,
               shakeDuration: Duration(milliseconds: 400),
-              child: FormFieldV1(
-                formFade: false,
-                formFieldController: phoneNumSignUpController,
-                formHintText: "Phone Number",
-                specificFieldValueType: SpecificFieldValueType.phonenumber,
-              ),
+              child: phoneNumSignUpField,
             ),
           ),
         ],
@@ -154,12 +227,7 @@ class SignUpPage extends HookConsumerWidget {
               shakeCount: 3,
               shakeOffset: 10,
               shakeDuration: Duration(milliseconds: 400),
-              child: FormFieldV1(
-                formFade: false,
-                formFieldController: emailSignUpController,
-                formHintText: "Email",
-                specificFieldValueType: SpecificFieldValueType.email,
-              ),
+              child: emailSignUpField,
             ),
           )
         ],
@@ -194,16 +262,12 @@ class SignUpPage extends HookConsumerWidget {
               shakeCount: 3,
               shakeOffset: 10,
               shakeDuration: Duration(milliseconds: 400),
-              child: FormFieldV1(
-                formFade: false,
-                formFieldController: passwordSignUpController,
-                formHintText: "Password",
-                specificFieldValueType: SpecificFieldValueType.password,
-              ),
+              child: passwordSignUpField,
             ),
           )
         ],
       ),
     );
   }
+
 }

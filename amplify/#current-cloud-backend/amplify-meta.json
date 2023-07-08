@@ -1,0 +1,63 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-polygon-dev-01349-authRole",
+      "UnauthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-01349-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-01349-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-polygon-dev-01349-deployment",
+      "UnauthRoleName": "amplify-polygon-dev-01349-unauthRole",
+      "StackName": "amplify-polygon-dev-01349",
+      "StackId": "arn:aws:cloudformation:us-east-1:470739242818:stack/amplify-polygon-dev-01349/b23deb10-0e57-11ee-81ef-0ee345da0ebd",
+      "AmplifyAppId": "d2358emokmfwl3"
+    }
+  },
+  "auth": {
+    "polygon5a45cfee": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [
+          "GOOGLE",
+          "AMAZON"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-01349-deployment/amplify-cfn-templates/auth/polygon5a45cfee-cloudformation-template.json",
+        "logicalId": "authpolygon5a45cfee"
+      },
+      "lastPushTimeStamp": "2023-06-26T20:50:42.927Z",
+      "output": {
+        "UserPoolId": "us-east-1_Vl544SpIv",
+        "AppClientIDWeb": "anefoigoa6f52qhc9nlfgu1ab",
+        "AppClientID": "6s2an8ugpr12rnq757jqdq301l",
+        "HostedUIDomain": "polygon5a45cfee-5a45cfee-dev",
+        "IdentityPoolId": "us-east-1:37fef670-e8ef-4f55-b327-5d206df6c380",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:470739242818:userpool/us-east-1_Vl544SpIv",
+        "IdentityPoolName": "polygon5a45cfee_identitypool_5a45cfee__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"polygon://\"],\"LogoutURLs\":[\"polygon://\"]}",
+        "UserPoolName": "polygon5a45cfee_userpool_5a45cfee"
+      },
+      "lastPushDirHash": "6YNbQZjrVpxSmzQF2rWapX4yyfk="
+    }
+  }
+}

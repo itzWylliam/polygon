@@ -9,7 +9,6 @@ import 'package:polygon/common/ui/text_button_v1.dart';
 import 'package:polygon/features/auth/controllers/auth_controller.dart';
 import 'package:polygon/common/ui/form_field_v1.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
-import 'package:polygon/features/auth/ui/signup_page.dart';
 
 double _elementOpacity = 1;
 bool _loading = false;
@@ -166,6 +165,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
                                 const SizedBox(
                                   height: 40,
                                 ),
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -190,8 +190,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
 // TODO: CHANGE - - - TESTING
   Future<String?> manualSignIn(WidgetRef ref) async {
     final result = await ref.read(authControllerProvider).manualSignIn(
-          username: phoneNumField.currentCountryCode(SpecificFieldValueType.phonenumber)! +
-              phoneNumFieldController.text,
+          username: phoneNumField.getPhoneNumber()!,
           password: passwordFieldController.text,
         );
 
@@ -228,9 +227,6 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
       safePrint("Amazon Sign In Failed.");
     }
   }
-
-  // TODO: SIGN UP LOGIC
-  Future<void> signUp(WidgetRef) async {}
 
   void showLoading() {
     setState(() {
