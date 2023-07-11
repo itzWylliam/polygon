@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:polygon/common/navigation/routes.dart';
 import 'package:polygon/common/ui/main_screen.dart';
 import 'package:polygon/features/auth/ui/signin_page.dart';

@@ -1,5 +1,7 @@
 enum SpecificFieldValueType {
   phonenumber,
   password,
-  email
+  email,
+  name,
+  nickname
 }

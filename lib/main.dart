@@ -10,6 +10,8 @@ import 'package:polygon/polygon_app.dart';
 
 Future<void> main() async {
 
+  // WidgetsFlutterBinding.ensureInitialized();
+
   // Configure Amplify Plugins
   _configureAmplify();
 

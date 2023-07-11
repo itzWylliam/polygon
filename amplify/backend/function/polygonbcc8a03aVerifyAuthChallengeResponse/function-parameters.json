@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "captcha-verify"
+  ],
+  "parentResource": "polygonbcc8a03a",
+  "functionName": "polygonbcc8a03aVerifyAuthChallengeResponse",
+  "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/VerifyAuthChallengeResponse",
+  "triggerTemplate": "VerifyAuthChallengeResponse.json.ejs",
+  "triggerEventPath": "VerifyAuthChallengeResponse.event.json",
+  "roleName": "polygonbcc8a03aVerifyAuthChallengeResponse",
+  "skipEdit": true
+}

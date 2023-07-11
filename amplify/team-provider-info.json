@@ -9,11 +9,43 @@
       "UnauthRoleName": "amplify-polygon-dev-01349-unauthRole",
       "StackName": "amplify-polygon-dev-01349",
       "StackId": "arn:aws:cloudformation:us-east-1:470739242818:stack/amplify-polygon-dev-01349/b23deb10-0e57-11ee-81ef-0ee345da0ebd",
-      "AmplifyAppId": "d2358emokmfwl3"
+      "AmplifyAppId": "d2358emokmfwl3",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-01349-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
+      "function": {
+        "polygon5a45cfeeDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygon5a45cfeeDefineAuthChallenge-2f70755355617a774755-build.zip"
+        },
+        "polygon5a45cfeeCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygon5a45cfeeCreateAuthChallenge-4462504e434147316239-build.zip"
+        },
+        "polygon5a45cfeeVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygon5a45cfeeVerifyAuthChallengeResponse-4a44305a366670702b35-build.zip"
+        },
+        "polygonbcc8a03aDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonbcc8a03aDefineAuthChallenge-64335462554c6a344469-build.zip"
+        },
+        "polygonbcc8a03aCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonbcc8a03aCreateAuthChallenge-41454b62596a30794d42-build.zip"
+        },
+        "polygonbcc8a03aVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonbcc8a03aVerifyAuthChallengeResponse-4f385165522f694e6963-build.zip"
+        }
+      },
       "auth": {
-        "polygon5a45cfee": {}
+        "polygonbcc8a03a": {
+          "googleClientId": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com",
+          "amazonAppId": "amzn1.application-oa2-client.919359a914024cee90ac99ca7128415a"
+        }
       }
     }
   }

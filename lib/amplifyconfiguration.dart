@@ -12,25 +12,29 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:37fef670-e8ef-4f55-b327-5d206df6c380",
+                            "PoolId": "us-east-1:66e23f4d-60e4-4343-8ad2-60b7d231c25a",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_Vl544SpIv",
-                        "AppClientId": "6s2an8ugpr12rnq757jqdq301l",
+                        "PoolId": "us-east-1_t4fp8GJ7O",
+                        "AppClientId": "61tbive4rl65i81l6jibq4bgr7",
                         "Region": "us-east-1"
                     }
+                },
+                "GoogleSignIn": {
+                    "Permissions": "email,profile,openid",
+                    "ClientId-WebApp": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com"
                 },
                 "Auth": {
                     "Default": {
                         "OAuth": {
-                            "WebDomain": "polygon5a45cfee-5a45cfee-dev.auth.us-east-1.amazoncognito.com",
-                            "AppClientId": "6s2an8ugpr12rnq757jqdq301l",
-                            "SignInRedirectURI": "polygon://",
-                            "SignOutRedirectURI": "polygon://",
+                            "WebDomain": "polygon-dev.auth.us-east-1.amazoncognito.com",
+                            "AppClientId": "61tbive4rl65i81l6jibq4bgr7",
+                            "SignInRedirectURI": "polygon://signin/",
+                            "SignOutRedirectURI": "polygon://signout/",
                             "Scopes": [
                                 "phone",
                                 "email",
@@ -39,27 +43,27 @@ const amplifyconfig = ''' {
                                 "aws.cognito.signin.user.admin"
                             ]
                         },
-                        "authenticationFlowType": "USER_SRP_AUTH",
-                        "mfaConfiguration": "OFF",
-                        "mfaTypes": [
-                            "SMS"
-                        ],
-                        "passwordProtectionSettings": {
-                            "passwordPolicyMinLength": 8,
-                            "passwordPolicyCharacters": []
-                        },
-                        "signupAttributes": [
-                            "EMAIL"
-                        ],
+                        "authenticationFlowType": "CUSTOM_AUTH",
                         "socialProviders": [
                             "GOOGLE",
                             "AMAZON"
                         ],
                         "usernameAttributes": [
+                            "PHONE_NUMBER"
+                        ],
+                        "signupAttributes": [
                             "EMAIL"
                         ],
+                        "passwordProtectionSettings": {
+                            "passwordPolicyMinLength": 8,
+                            "passwordPolicyCharacters": []
+                        },
+                        "mfaConfiguration": "OPTIONAL",
+                        "mfaTypes": [
+                            "SMS"
+                        ],
                         "verificationMechanisms": [
-                            "EMAIL"
+                            "PHONE_NUMBER"
                         ]
                     }
                 }

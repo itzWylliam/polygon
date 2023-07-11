@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "captcha-create-challenge"
+  ],
+  "parentResource": "polygon5a45cfee",
+  "functionName": "polygon5a45cfeeCreateAuthChallenge",
+  "resourceName": "polygon5a45cfeeCreateAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CreateAuthChallenge",
+  "triggerTemplate": "CreateAuthChallenge.json.ejs",
+  "triggerEventPath": "CreateAuthChallenge.event.json",
+  "roleName": "polygon5a45cfeeCreateAuthChallenge",
+  "skipEdit": true
+}

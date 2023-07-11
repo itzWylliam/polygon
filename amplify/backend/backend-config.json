@@ -1,10 +1,38 @@
 {
   "auth": {
-    "polygon5a45cfee": {
+    "polygonbcc8a03a": {
       "customAuth": false,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "polygonbcc8a03aDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "polygonbcc8a03aCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
       "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
+        "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
           "SMS"
         ],
@@ -20,14 +48,176 @@
           "AMAZON"
         ],
         "usernameAttributes": [
-          "EMAIL"
+          "PHONE_NUMBER"
         ],
         "verificationMechanisms": [
-          "EMAIL"
+          "PHONE_NUMBER"
         ]
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "polygon5a45cfeeCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygon5a45cfeeDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygon5a45cfeeVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonbcc8a03aCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonbcc8a03aDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonbcc8a03aVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_polygonbcc8a03a_amazonAppId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polygonbcc8a03a"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polygonbcc8a03a_googleClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polygonbcc8a03a"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeVerifyAuthChallengeResponse_RECAPTCHASECRET": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygon5a45cfeeVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygon5a45cfeeVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aVerifyAuthChallengeResponse_RECAPTCHASECRET": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonbcc8a03aVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse"
+        }
+      ]
     }
   }
 }

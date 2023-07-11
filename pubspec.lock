@@ -218,13 +218,13 @@ packages:
     source: hosted
     version: "7.0.0"
   dots_indicator:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dots_indicator
-      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      sha256: f1599baa429936ba87f06ae5f2adc920a367b16d08f74db58c3d0f6e93bcdb5c
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.2"
   drift:
     dependency: transitive
     description:
@@ -278,54 +278,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.6"
-  flutter_keyboard_visibility:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility
-      sha256: "4983655c26ab5b959252ee204c2fffa4afeb4413cd030455194ec0caa3b8e7cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.4.1"
-  flutter_keyboard_visibility_linux:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility_linux
-      sha256: "6fba7cd9bb033b6ddd8c2beb4c99ad02d728f1e6e6d9b9446667398b2ac39f08"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  flutter_keyboard_visibility_macos:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility_macos
-      sha256: c5c49b16fff453dfdafdc16f26bdd8fb8d55812a1d50b0ce25fc8d9f2e53d086
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  flutter_keyboard_visibility_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility_platform_interface
-      sha256: e43a89845873f7be10cb3884345ceb9aebf00a659f479d1c8f4293fcb37022a4
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
-  flutter_keyboard_visibility_web:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility_web
-      sha256: d3771a2e752880c79203f8d80658401d0c998e4183edca05a149f5098ce6e3d1
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
-  flutter_keyboard_visibility_windows:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility_windows
-      sha256: fc4b0f0b6be9b93ae527f3d527fb56ee2d918cd88bbca438c478af7bcfd0ef73
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -342,6 +294,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  flutter_signin_button:
+    dependency: "direct main"
+    description:
+      name: flutter_signin_button
+      sha256: a063ecc5d5308377e103c9c3a89084abf15fca4440636233af6a13abacd5dcae
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -356,10 +316,10 @@ packages:
     dependency: "direct main"
     description:
       name: font_awesome_flutter
-      sha256: "959ef4add147753f990b4a7c6cccb746d5792dbdc81b1cde99e62e7edb31b206"
+      sha256: "1f93e5799f0e6c882819e8393a05c6ca5226010f289190f2242ec19f3f0fdba5"
       url: "https://pub.dev"
     source: hosted
-    version: "10.4.0"
+    version: "9.2.0"
   go_router:
     dependency: "direct main"
     description:
@@ -408,14 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.1"
-  introduction_screen:
+  intl_phone_field:
     dependency: "direct main"
     description:
-      name: introduction_screen
-      sha256: f39be426026785b8fea4ed93e226e7fc28ef49a4c78c3f86c958bae26dabef00
+      name: intl_phone_field
+      sha256: "73819d3dfcb68d2c85663606f6842597c3ddf6688ac777f051b17814fe767bbf"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.9"
+    version: "3.2.0"
   js:
     dependency: transitive
     description:
@@ -717,6 +677,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  string_validator:
+    dependency: "direct main"
+    description:
+      name: string_validator
+      sha256: b419cf5d21d608522e6e7cafed4deb34b6f268c43df866e63c320bab98a08cf6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   term_glyph:
     dependency: transitive
     description:

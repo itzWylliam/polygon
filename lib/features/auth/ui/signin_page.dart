@@ -175,7 +175,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
                                     ),
                                     signInButton,
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           ),
