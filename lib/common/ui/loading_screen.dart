@@ -20,10 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 3000), () {
-      setState(() {
-        _alignment = Alignment.topRight;
-        stopScaleAnimtion = true;
-      });
+      stopScaleAnimtion = true;
     });
   }
 

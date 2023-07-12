@@ -1,7 +1,7 @@
 {
   "auth": {
-    "polygonbcc8a03a": {
-      "customAuth": false,
+    "polygon": {
+      "customAuth": true,
       "dependsOn": [
         {
           "attributes": [
@@ -9,7 +9,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "polygonbcc8a03aDefineAuthChallenge",
+          "resourceName": "polygonDefineAuthChallenge",
           "triggerProvider": "Cognito"
         },
         {
@@ -18,7 +18,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "polygonbcc8a03aCreateAuthChallenge",
+          "resourceName": "polygonCreateAuthChallenge",
           "triggerProvider": "Cognito"
         },
         {
@@ -27,7 +27,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "polygonbcc8a03aVerifyAuthChallengeResponse",
+          "resourceName": "polygonVerifyAuthChallengeResponse",
           "triggerProvider": "Cognito"
         }
       ],
@@ -41,12 +41,12 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL"
+          "EMAIL",
+          "FAMILY_NAME",
+          "GIVEN_NAME",
+          "PHONE_NUMBER"
         ],
-        "socialProviders": [
-          "GOOGLE",
-          "AMAZON"
-        ],
+        "socialProviders": [],
         "usernameAttributes": [
           "PHONE_NUMBER"
         ],
@@ -56,6 +56,22 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "polygon"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
     }
   },
   "function": {
@@ -70,6 +86,36 @@
       "service": "Lambda"
     },
     "polygon5a45cfeeVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygonVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygona13724dbCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygona13724dbDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "polygona13724dbVerifyAuthChallengeResponse": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -91,19 +137,11 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_polygonbcc8a03a_amazonAppId": {
+    "AMPLIFY_auth_polygon_googleClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "polygonbcc8a03a"
-        }
-      ]
-    },
-    "AMPLIFY_auth_polygonbcc8a03a_googleClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "polygonbcc8a03a"
+          "resourceName": "polygon"
         }
       ]
     },
@@ -160,6 +198,118 @@
         {
           "category": "function",
           "resourceName": "polygon5a45cfeeVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonVerifyAuthChallengeResponse_RECAPTCHASECRET": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygonVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygonVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbVerifyAuthChallengeResponse_RECAPTCHASECRET": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_polygona13724dbVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "polygona13724dbVerifyAuthChallengeResponse"
         }
       ]
     },

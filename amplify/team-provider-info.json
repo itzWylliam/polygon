@@ -39,13 +39,39 @@
           "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
           "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
           "s3Key": "amplify-builds/polygonbcc8a03aVerifyAuthChallengeResponse-4f385165522f694e6963-build.zip"
+        },
+        "polygona13724dbDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygona13724dbDefineAuthChallenge-44516f5738452f743738-build.zip"
+        },
+        "polygona13724dbCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygona13724dbCreateAuthChallenge-5366613657374155346c-build.zip"
+        },
+        "polygona13724dbVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygona13724dbVerifyAuthChallengeResponse-32595645733852644241-build.zip"
+        },
+        "polygonDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonDefineAuthChallenge-672b6d4a31474d737477-build.zip"
+        },
+        "polygonCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonCreateAuthChallenge-2b6276346a6668623469-build.zip"
+        },
+        "polygonVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
+          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
+          "s3Key": "amplify-builds/polygonVerifyAuthChallengeResponse-663279594d7a79487376-build.zip"
         }
       },
       "auth": {
-        "polygonbcc8a03a": {
-          "googleClientId": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com",
-          "amazonAppId": "amzn1.application-oa2-client.919359a914024cee90ac99ca7128415a"
-        }
+        "polygon": {
+          "googleClientId": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com"
+        },
+        "userPoolGroups": {}
       }
     }
   }

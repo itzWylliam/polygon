@@ -12,15 +12,15 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:66e23f4d-60e4-4343-8ad2-60b7d231c25a",
+                            "PoolId": "us-east-1:aca777ad-bb1b-48cf-aca3-c18003a24b4d",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_t4fp8GJ7O",
-                        "AppClientId": "61tbive4rl65i81l6jibq4bgr7",
+                        "PoolId": "us-east-1_o6BugnzdY",
+                        "AppClientId": "1eoflavfm1oqqe5mikkdstub5g",
                         "Region": "us-east-1"
                     }
                 },
@@ -30,29 +30,16 @@ const amplifyconfig = ''' {
                 },
                 "Auth": {
                     "Default": {
-                        "OAuth": {
-                            "WebDomain": "polygon-dev.auth.us-east-1.amazoncognito.com",
-                            "AppClientId": "61tbive4rl65i81l6jibq4bgr7",
-                            "SignInRedirectURI": "polygon://signin/",
-                            "SignOutRedirectURI": "polygon://signout/",
-                            "Scopes": [
-                                "phone",
-                                "email",
-                                "openid",
-                                "profile",
-                                "aws.cognito.signin.user.admin"
-                            ]
-                        },
                         "authenticationFlowType": "CUSTOM_AUTH",
-                        "socialProviders": [
-                            "GOOGLE",
-                            "AMAZON"
-                        ],
+                        "socialProviders": [],
                         "usernameAttributes": [
                             "PHONE_NUMBER"
                         ],
                         "signupAttributes": [
-                            "EMAIL"
+                            "EMAIL",
+                            "FAMILY_NAME",
+                            "GIVEN_NAME",
+                            "PHONE_NUMBER"
                         ],
                         "passwordProtectionSettings": {
                             "passwordPolicyMinLength": 8,

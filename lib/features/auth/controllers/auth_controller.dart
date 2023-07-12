@@ -5,7 +5,6 @@ import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart'
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
 import 'package:polygon/features/auth/data/Auth_Repository.dart';
 
-
 // General Auth Controller Access
 final authControllerProvider = Provider((ref) {
   final authController = AuthController(ref);
@@ -21,6 +20,7 @@ class AuthController {
   Future<SignInResult?> amazonSignIn() async {
     return ref.read(authRepositoryProvider).amazonSignIn();
   }
+
 // COMPLETE: GOOGLE SIGN IN METHOD
 // TODO: add logic to validate result
   Future<SignInResult?> googleSignIn() async {
@@ -28,16 +28,23 @@ class AuthController {
   }
 
 // NOTE: MANUAL SIGN UP
-  Future<SignUpResult?> signUp( 
-    {
+  Future<SignUpResult?> signUp({
     required String email,
     required String password,
     required String phoneNum,
+    required String givenName,
+    required String lastName,
+    String? nickname,
     BuildContext? context,
-    } 
-) async {
-
-    final entry = SignUpEntry(email: email, password: password, phoneNum: phoneNum, context: context);
+  }) async {
+    final entry = SignUpEntry(
+        email: email,
+        password: password,
+        phoneNum: phoneNum,
+        givenName: givenName,
+        lastName: lastName,
+        nickname: nickname,
+        context: context);
 
     return ref.read(authRepositoryProvider).manualSignUp(entry);
   }
@@ -49,7 +56,8 @@ class AuthController {
     required String password,
     BuildContext? context,
   }) async {
-    final entry = SignInEntry(username: username, password: password, context: context);
+    final entry =
+        SignInEntry(username: username, password: password, context: context);
 
     return ref.read(authRepositoryProvider).manualSignIn(entry);
   }
@@ -58,9 +66,11 @@ class AuthController {
   Future<AuthUser> getCurrentUser() async {
     return ref.read(authRepositoryProvider).getCurrentUser();
   }
+
   Future<void> deactivateUser() async {
     await ref.read(authRepositoryProvider).deactivateUser();
   }
+
   Future<bool> deleteUser() async {
     return ref.read(authRepositoryProvider).deleteUser();
   }

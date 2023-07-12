@@ -7,10 +7,10 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:polygon/common/navigation/routes.dart';
 import 'package:polygon/common/ui/basic_inputfield_v1.dart';
 import 'package:polygon/common/ui/loading_screen.dart';
+import 'package:polygon/common/ui/text_button_v1.dart';
 import 'package:polygon/common/utils/animation/shake_widget.dart';
 import 'package:polygon/common/utils/input_field_validator.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
-import 'package:polygon/features/auth/controllers/auth_controller.dart';
 import 'package:polygon/features/auth/ui/model/signup_steps.dart';
 
 class SignUpPage extends StatefulHookConsumerWidget {
@@ -21,7 +21,6 @@ class SignUpPage extends StatefulHookConsumerWidget {
 }
 
 class _signUpPageState extends ConsumerState<SignUpPage> {
-  bool confirmation = false;
   bool _loading = false;
   double currentPagePosition = 0;
 
@@ -98,7 +97,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
   late SignUpStep confirmPasswordStep;
   late SignUpStep namingStep;
 
-  late AlertDialog confirmSignUpDialog;
+  late Dialog confirmSignUpDialog;
 
   late SignUpStep confirmationStep;
 
@@ -202,7 +201,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     lastNameField = BasicInputFieldV1(
       textController: lastNameController,
       width: 120,
-      labelText: "First Name",
+      labelText: "Last Name",
       onTextChanged: (value) {
         // PENDING
         // setState(() {
@@ -230,15 +229,49 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       },
     );
 
-    confirmSignUpDialog = AlertDialog(
-      title: Text("Confirmation"),
-      content: Text("Check your text messages for confirmation."),
-      actions: [
-        TextButton(
-          child: Text("OK"),
-          onPressed: () {},
-        )
-      ],
+    confirmSignUpDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 5,
+      backgroundColor: Colors.white,
+      child: Container(
+        width: 450,
+        height: 500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Confirm Sign Up',
+              style: TextStyle(fontSize: 25),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 30,),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 35.0),
+              child: Text(
+                'Lastly provide us the verification we sent you through text. Check your text message for verification code',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 50.0,
+              ),
+              child: verifyField,
+            ),
+            SizedBox(height: 50,),
+            Row(
+              children: [
+                
+              ],
+            )
+          ],
+        ),
+      ),
     );
 
     // NOTE: FUTURE IMPROVEMENTS VALIDATION CHECKER ICON SHOWING
@@ -255,32 +288,6 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    confirmationStep = SignUpStep(
-      children: [
-        Text(
-          'Confirm Sign Up',
-          style: Theme.of(context).textTheme.headline5,
-          textAlign: TextAlign.center,
-        ),
-        const Text(
-          'Lastly provide us the verification we sent you through text.',
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50.0,
-          ),
-          child: Stack(
-            children: [
-              verifyField,
-            ],
-          ),
-        ),
-      ],
-    );
     phoneNumStep = SignUpStep(
       children: [
         Text(
@@ -363,7 +370,22 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
           padding: const EdgeInsets.symmetric(
             horizontal: 50.0,
           ),
-          child: passwordField,
+          child: Column(
+            children: [
+              passwordField,
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Requirements:",
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                "1. Password contains at least 6 characters. \n2. Password contains at least one uppercase alphabet. \n3. Password contains at least one lowercase alphabet. \n4. Password contains at least one special character among the followings: @ # % & : _ ~",
+              )
+            ],
+          ),
         ),
         // PENDING
         // if (passwordError)
@@ -595,7 +617,6 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
                             onPressed: currentPagePosition != 4
                                 ? nextPage
                                 : () {
-                                    showLoading();
                                     signUp();
                                   },
                             child: currentPagePosition != 4
@@ -660,6 +681,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
           content: Text(firstNameErrorText),
         ),
       );
+      return false;
     } else if (await validateInput(
             SpecificFieldValueType.name, currentLastName) ==
         false) {
@@ -669,6 +691,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
           content: Text(lastNameErrorText),
         ),
       );
+      return false;
     } else if (await validateInput(
             SpecificFieldValueType.nickname, currentNickname) ==
         false) {
@@ -753,30 +776,44 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
   }
 
   Future<SignUpResult?> signUp() async {
+    final result;
+
     safePrint("So MF trying to sign up?");
+
+    // DEBUG: DISABLE LATER
+    // if (await validateAllInput()) {
+    //   safePrint("YES YOU CAN SIGN UP");
+    //   showLoading();
+    //   result = await ref.read(authControllerProvider).signUp(
+    //         email: emailController.text,
+    //         password: passwordController.text,
+    //         phoneNum: currentPhoneNum,
+    //         givenName: currentFirstName,
+    //         lastName: currentLastName,
+    //         nickname: currentNickname,
+    //       );
+    // } else {
+    //   safePrint("noo you cannot");
+    //   result = null;
+    // }
+
+    // if (result != null) {
+    //   if (result!.nextStep.signUpStep == AuthSignUpStep.confirmSignUp) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => confirmSignUpDialog,
+    //     );
+    //   }
+    // }
 
     hideLoading();
 
-    if (await validateAllInput()) {
-      safePrint("YES YOU CAN SIGN UP");
-    } else {
-      safePrint("noo you cannot");
-    }
+    showDialog(
+      context: context,
+      builder: (context) => confirmSignUpDialog,
+    );
 
-    final result = await ref.read(authControllerProvider).signUp(
-          email: emailController.text,
-          password: passwordController.text,
-          phoneNum: currentPhoneNum,
-        );
-
-    if (result != null) {
-      if (result!.nextStep.signUpStep == AuthSignUpStep.confirmSignUp) {
-        showDialog(
-          context: context,
-          builder: (context) => confirmSignUpDialog,
-        );
-      }
-    }
+    // return result;
   }
 
   void showLoading() {
@@ -814,4 +851,5 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       curve: Curves.easeIn,
     );
   }
+
 }

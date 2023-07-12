@@ -37,6 +37,10 @@ class AuthService {
       // TODO: validate duplicated user
       final userAttributes = {
         AuthUserAttributeKey.email: entry.email,
+        AuthUserAttributeKey.givenName: entry.givenName,
+        AuthUserAttributeKey.familyName: entry.lastName,
+        if (entry.nickname != null) 
+          AuthUserAttributeKey.nickname: entry.nickname!,
       // additional attributes as needed
       };
       final result = await Amplify.Auth.signUp(

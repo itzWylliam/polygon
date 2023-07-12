@@ -7,7 +7,7 @@ Future<bool> validateInput(
   SpecificFieldValueType specificValueType,
   String value,
 ) async {
-  if (value == '') {
+  if (specificValueType != SpecificFieldValueType.nickname && value == '') {
     return false;
   }
 
@@ -15,19 +15,14 @@ Future<bool> validateInput(
     case SpecificFieldValueType.email:
       return isEmail(value);
     case SpecificFieldValueType.password:
-      // TODO: add validate logic for password
-      return true;
+      return isAcceptablePassword(value);
     case SpecificFieldValueType.phonenumber:
+      return await PhoneNumberUtil().validate(value);
 
-      // DEBUG
-      safePrint(
-          "validation result: ${await PhoneNumberUtil().validate(value)}");
-      return await PhoneNumberUtil().validate(value); 
-       
     case SpecificFieldValueType.name:
       return isAlpha(value.replaceAll(RegExp(r"\s+"), ""));
     case SpecificFieldValueType.nickname:
-      return isAlphanumeric(value.replaceAll(RegExp(r"\s+"), "")) || value == '';
+      return isAlphanumeric(value.replaceAll(RegExp(r"\s+"), ""));
     default:
       return true;
   }
@@ -39,3 +34,18 @@ bool isValidEmail(String email) {
       .hasMatch(email);
 }
 
+bool isAcceptablePassword(String password) {
+  return (password.length >= 6 &&
+      password.length <= 99 &&
+      password.contains(RegExp(r'[A-Z]')) &&
+      password.contains(RegExp(r'[a-z]')) &&
+      password.contains(RegExp(r'[0-9]')) &&
+      // @ # % &  :  _ ~
+      (password.contains("@") ||
+          password.contains("#") ||
+          password.contains("%") ||
+          password.contains("&") ||
+          password.contains(":") ||
+          password.contains("_") ||
+          password.contains("~")));
+}
