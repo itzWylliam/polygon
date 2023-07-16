@@ -3,5 +3,6 @@ enum SpecificFieldValueType {
   password,
   email,
   name,
-  nickname
+  nickname,
+  number
 }

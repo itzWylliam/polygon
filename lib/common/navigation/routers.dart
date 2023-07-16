@@ -12,7 +12,7 @@ GoRouter generalRouter = GoRouter(
       path: '/home',
       name: PolygonRoute.home.name,
       pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-        child: MainScreen(),
+        child: const MainScreen(),
         state: state,
         context: context,
       ),
@@ -21,7 +21,7 @@ GoRouter generalRouter = GoRouter(
       path: '/signin',
       name: PolygonRoute.signin.name,
       pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-        child: SignInPage(),
+        child: const SignInPage(),
         state: state,
         context: context,
       ),
@@ -30,7 +30,7 @@ GoRouter generalRouter = GoRouter(
       path: '/signup',
       name: PolygonRoute.signup.name,
       pageBuilder: (context, state) => buildPageWithSlideUpTransition<void>(
-        child: SignUpPage(),
+        child: const SignUpPage(),
         state: state,
         context: context,
       ),

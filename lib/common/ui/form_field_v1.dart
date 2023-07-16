@@ -1,8 +1,8 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:phone_number/phone_number.dart';
 import 'package:polygon/common/utils/input_field_validator.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
 
@@ -57,7 +57,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   SpecificFieldValueType? specificValueType;
   late String formValueHintText;
   late CountryCode? countryCode = CountryCode();
-  late String? currentPhoneNum;
+  late String? currentPhoneNum = '';
   late bool inputAccepted = false;
 
   late double phoneFieldPadding = 0.0;
@@ -116,9 +116,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
                 child: Padding(
                   padding: EdgeInsets.only(left: phoneFieldPadding,),
                   child: TextFormField(
-                    textInputAction: widget.textInputAction == null
-                        ? TextInputAction.done
-                        : widget.textInputAction,
+                    textInputAction: widget.textInputAction ?? TextInputAction.done,
                     onTap: () => currentFocus.requestFocus(),
                     controller: formFieldController,
                     focusNode: currentFocus,
@@ -182,7 +180,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
             child: Align(
               alignment: Alignment.bottomRight,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: fade_duration_millsec),
+                duration: const Duration(milliseconds: fade_duration_millsec),
                 width: widget.formFade
                     ? 0
                     : (specificValueType == SpecificFieldValueType.phonenumber
@@ -191,7 +189,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: bottomAnimationVal),
                   curve: Curves.easeOutQuint,
-                  duration: Duration(milliseconds: fade_duration_millsec),
+                  duration: const Duration(milliseconds: fade_duration_millsec),
                   builder: ((context, value, child) => LinearProgressIndicator(
                         value: value,
                         backgroundColor: Colors.grey.withOpacity(0.5),
@@ -201,10 +199,10 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: 75,
             child: specificValueType == SpecificFieldValueType.phonenumber
-                ? Container(
+                ? SizedBox(
                     width: 50,
                     child: CountryCodePicker(
                       alignLeft: true,
@@ -223,7 +221,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
                       },
                     ),
                   )
-                : SizedBox(
+                : const SizedBox(
                     height: 0,
                     width: 0,
                   ),
@@ -232,18 +230,18 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
           Positioned.fill(
             child: AnimatedPadding(
               curve: Curves.easeIn,
-              duration: Duration(milliseconds: fade_duration_millsec),
+              duration: const Duration(milliseconds: fade_duration_millsec),
               padding: paddingAnimationVal,
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0, end: widget.formFade ? 0 : 1),
                 curve: Curves.easeIn,
-                duration: Duration(milliseconds: fade_duration_millsec),
+                duration: const Duration(milliseconds: fade_duration_millsec),
                 builder: ((context, value, child) => Opacity(
                       opacity: value,
                       child: Align(
                         alignment: AlignmentDirectional.centerEnd,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0)
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0)
                               .copyWith(bottom: 0),
                           child: Icon(Icons.check_rounded,
                               size: 27,
@@ -277,7 +275,7 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
     switch (specificValueType) {
       case SpecificFieldValueType.email:
         return TextInputType.emailAddress;
-      case SpecificFieldValueType.phonenumber:
+      case SpecificFieldValueType.phonenumber && SpecificFieldValueType.number:
         return TextInputType.number;
       default:
         return null;

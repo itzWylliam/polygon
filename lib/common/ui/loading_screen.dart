@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:polygon/common/navigation/routes.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key, required this.path});
@@ -13,13 +12,13 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   double loadingBallSize = 1;
-  AlignmentGeometry _alignment = Alignment.center;
+  final AlignmentGeometry _alignment = Alignment.center;
   bool stopScaleAnimtion = false;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 3000), () {
       stopScaleAnimtion = true;
     });
   }
@@ -29,11 +28,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Stack(
       children: [
         AnimatedAlign(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           alignment: _alignment,
           child: TweenAnimationBuilder<double>(
             // NOTE: Duration of animation
-            duration: Duration(milliseconds: 350),
+            duration: const Duration(milliseconds: 350),
             tween: Tween(begin: 0, end: loadingBallSize),
             onEnd: () {
               if (!stopScaleAnimtion) {
@@ -45,7 +44,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   }
                 });
               } else {
-                Future.delayed(Duration(milliseconds: 300), () {
+                Future.delayed(const Duration(milliseconds: 300), () {
                   context.goNamed(widget.path);
                 });
               }
@@ -62,7 +61,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 ),
                 child: stopScaleAnimtion
                     ? TweenAnimationBuilder<double>(
-                        duration: Duration(milliseconds: 600),
+                        duration: const Duration(milliseconds: 600),
                         tween: Tween(begin: 0, end: 1),
                         builder: (_, value, __) => Opacity(
                           opacity: value,
@@ -80,7 +79,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Widget builderFunction(BuildContext context, double value, Widget? widget) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
       ),
     );

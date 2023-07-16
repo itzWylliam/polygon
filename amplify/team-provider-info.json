@@ -1,77 +1,45 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-polygon-dev-01349-authRole",
-      "UnauthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-01349-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-01349-authRole",
+      "AuthRoleName": "amplify-polygon-dev-162913-authRole",
+      "UnauthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-162913-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::470739242818:role/amplify-polygon-dev-162913-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-polygon-dev-01349-deployment",
-      "UnauthRoleName": "amplify-polygon-dev-01349-unauthRole",
-      "StackName": "amplify-polygon-dev-01349",
-      "StackId": "arn:aws:cloudformation:us-east-1:470739242818:stack/amplify-polygon-dev-01349/b23deb10-0e57-11ee-81ef-0ee345da0ebd",
-      "AmplifyAppId": "d2358emokmfwl3",
-      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-01349-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+      "DeploymentBucketName": "amplify-polygon-dev-162913-deployment",
+      "UnauthRoleName": "amplify-polygon-dev-162913-unauthRole",
+      "StackName": "amplify-polygon-dev-162913",
+      "StackId": "arn:aws:cloudformation:us-east-1:470739242818:stack/amplify-polygon-dev-162913/43f51320-234e-11ee-80eb-12b15fc80385",
+      "AmplifyAppId": "ddq8i47lgwfu9",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
-      "function": {
-        "polygon5a45cfeeDefineAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygon5a45cfeeDefineAuthChallenge-2f70755355617a774755-build.zip"
-        },
-        "polygon5a45cfeeCreateAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygon5a45cfeeCreateAuthChallenge-4462504e434147316239-build.zip"
-        },
-        "polygon5a45cfeeVerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygon5a45cfeeVerifyAuthChallengeResponse-4a44305a366670702b35-build.zip"
-        },
-        "polygonbcc8a03aDefineAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonbcc8a03aDefineAuthChallenge-64335462554c6a344469-build.zip"
-        },
-        "polygonbcc8a03aCreateAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonbcc8a03aCreateAuthChallenge-41454b62596a30794d42-build.zip"
-        },
-        "polygonbcc8a03aVerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonbcc8a03aVerifyAuthChallengeResponse-4f385165522f694e6963-build.zip"
-        },
-        "polygona13724dbDefineAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygona13724dbDefineAuthChallenge-44516f5738452f743738-build.zip"
-        },
-        "polygona13724dbCreateAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygona13724dbCreateAuthChallenge-5366613657374155346c-build.zip"
-        },
-        "polygona13724dbVerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygona13724dbVerifyAuthChallengeResponse-32595645733852644241-build.zip"
-        },
-        "polygonDefineAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonDefineAuthChallenge-672b6d4a31474d737477-build.zip"
-        },
-        "polygonCreateAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonCreateAuthChallenge-2b6276346a6668623469-build.zip"
-        },
-        "polygonVerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-01349-deployment",
-          "s3Key": "amplify-builds/polygonVerifyAuthChallengeResponse-663279594d7a79487376-build.zip"
-        }
-      },
       "auth": {
-        "polygon": {
-          "googleClientId": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com"
+        "polygond185e634": {
+          "googleClientId": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com"
         },
         "userPoolGroups": {}
+      },
+      "function": {
+        "polygond185e634DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
+          "s3Key": "amplify-builds/polygond185e634DefineAuthChallenge-32536c52684931443044-build.zip"
+        },
+        "polygond185e634CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
+          "s3Key": "amplify-builds/polygond185e634CreateAuthChallenge-696e4f504b4f79685465-build.zip"
+        },
+        "polygond185e634VerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
+          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
+          "s3Key": "amplify-builds/polygond185e634VerifyAuthChallengeResponse-4e61543139416d353549-build.zip"
+        },
+        "AdminQueriesf97b2bef": {
+          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
+          "s3Key": "amplify-builds/AdminQueriesf97b2bef-765338384c6249685355-build.zip"
+        }
+      },
+      "api": {
+        "AdminQueries": {}
       }
     }
   }

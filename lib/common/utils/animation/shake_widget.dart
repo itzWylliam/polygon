@@ -27,7 +27,7 @@ class ShakeWidget extends StatefulWidget {
 class ShakeWidgetState extends AnimationControllerState<ShakeWidget> {
   ShakeWidgetState(Duration duration) : super(duration);
   // 1. create a Tween
-  late Animation<double> _sineAnimation = Tween(
+  late final Animation<double> _sineAnimation = Tween(
     begin: 0.0,
     end: 1.0,
     // 2. animate it with a CurvedAnimation

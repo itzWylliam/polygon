@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:polygon/common/ui/form_field_v1.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
 
 class SignUpStep extends HookConsumerWidget {
   final Widget? image;
   final List<Widget> children;
 
-  SignUpStep({
+  const SignUpStep({
     super.key,
     this.image,
     required this.children,
@@ -21,20 +19,21 @@ class SignUpStep extends HookConsumerWidget {
         children: [
           if (image != null)
             Expanded(
+              flex: 2,
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Card(
                     elevation: 10,
-                    child: image!,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
+                    child: image!,
                   ),
                 ),
-              ),
-              flex: 2, // occupy 2/3 of available space
+              ), // occupy 2/3 of available space
             ),
           Expanded(
+            flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -44,7 +43,6 @@ class SignUpStep extends HookConsumerWidget {
                 children: children,
               ),
             ),
-            flex: 1,
           ),
         ],
       ),

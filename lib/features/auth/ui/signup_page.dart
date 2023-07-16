@@ -4,24 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:polygon/common/navigation/routes.dart';
 import 'package:polygon/common/ui/basic_inputfield_v1.dart';
-import 'package:polygon/common/ui/loading_screen.dart';
-import 'package:polygon/common/ui/text_button_v1.dart';
 import 'package:polygon/common/utils/animation/shake_widget.dart';
 import 'package:polygon/common/utils/input_field_validator.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/features/auth/controllers/auth_controller.dart';
 import 'package:polygon/features/auth/ui/model/signup_steps.dart';
+import 'package:polygon/features/auth/ui/verify_dialog.dart';
 
 class SignUpPage extends StatefulHookConsumerWidget {
-  SignUpPage({super.key});
+  const SignUpPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _signUpPageState();
 }
 
 class _signUpPageState extends ConsumerState<SignUpPage> {
-  bool _loading = false;
+  // NOTE: custom loading
+  // bool _loading = false;
   double currentPagePosition = 0;
 
   String currentPhoneNum = '';
@@ -97,7 +99,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
   late SignUpStep confirmPasswordStep;
   late SignUpStep namingStep;
 
-  late Dialog confirmSignUpDialog;
+  late VerifyDialog confirmSignUpDialog;
 
   late SignUpStep confirmationStep;
 
@@ -169,15 +171,15 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
         currentPhoneNum = value.completeNumber;
       },
       decoration: InputDecoration(
-        floatingLabelStyle: TextStyle(
+        floatingLabelStyle: const TextStyle(
           backgroundColor: Colors.white,
           fontWeight: FontWeight.bold,
         ),
         floatingLabelAlignment: FloatingLabelAlignment.center,
         labelText: "Phone Number",
         filled: true,
-        fillColor: Color.fromARGB(95, 233, 233, 233),
-        labelStyle: TextStyle(fontSize: 14),
+        fillColor: const Color.fromARGB(95, 233, 233, 233),
+        labelStyle: const TextStyle(fontSize: 14),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(10.0),
@@ -221,57 +223,41 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
         onNickNameChange(value!);
       },
     );
-    verifyField = BasicInputFieldV1(
-      textController: verifyController,
-      labelText: "Verification Code",
-      onTextChanged: (value) {
-        onVerifyCodeChange(value.toString());
-      },
-    );
 
-    confirmSignUpDialog = Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 5,
-      backgroundColor: Colors.white,
-      child: Container(
-        width: 450,
-        height: 500,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Confirm Sign Up',
-              style: TextStyle(fontSize: 25),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 30,),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 35.0),
-              child: Text(
-                'Lastly provide us the verification we sent you through text. Check your text message for verification code',
-                textAlign: TextAlign.center,
+    // NOTE: verify input dialog
+    confirmSignUpDialog = VerifyDialog(
+      verifyController: verifyController,
+      username: emailController.text,
+      onConfirm: (code, ctx) async {
+        final confirmResult = await ref
+            .read(authControllerProvider)
+            .confirmUser(emailController.text, code);
+        if (confirmResult != null) {
+          if (confirmResult.nextStep.signUpStep == AuthSignUpStep.done &&
+              confirmResult.isSignUpComplete) {
+            if (ctx.mounted && context.mounted) {
+              ctx.pop();
+              context.goNamed(PolygonRoute.home.name);
+            }
+          } else {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Verification failed."),
+                ),
+              );
+            }
+          }
+        } else {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Verification failed."),
               ),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 50.0,
-              ),
-              child: verifyField,
-            ),
-            SizedBox(height: 50,),
-            Row(
-              children: [
-                
-              ],
-            )
-          ],
-        ),
-      ),
+            );
+          }
+        }
+      },
     );
 
     // NOTE: FUTURE IMPROVEMENTS VALIDATION CHECKER ICON SHOWING
@@ -292,7 +278,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       children: [
         Text(
           'Phone Number',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const Text(
@@ -318,7 +304,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       children: [
         Text(
           'Email',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const Text(
@@ -356,7 +342,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       children: [
         Text(
           'Account Password',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const Text(
@@ -373,15 +359,15 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
           child: Column(
             children: [
               passwordField,
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Text(
+              const Text(
                 "Requirements:",
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 16),
               ),
-              Text(
+              const Text(
                 "1. Password contains at least 6 characters. \n2. Password contains at least one uppercase alphabet. \n3. Password contains at least one lowercase alphabet. \n4. Password contains at least one special character among the followings: @ # % & : _ ~",
               )
             ],
@@ -402,7 +388,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       children: [
         Text(
           'Password Confirmation',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const Text(
@@ -437,7 +423,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       children: [
         Text(
           'How should we call you?',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const Text(
@@ -470,7 +456,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Align(
@@ -493,7 +479,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         ),
         Padding(
@@ -516,119 +502,118 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
       ],
     );
 
-    return Scaffold(
-      body: SafeArea(
-        child: _loading
-            ? Padding(
-                padding: EdgeInsets.all(8.0),
-                child: LoadingScreen(
-                  path: PolygonRoute.home.name,
-                ),
-              )
-            : PageView(
-                controller: null,
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
+    return LoaderOverlay(
+      child: Scaffold(
+        body: SafeArea(
+          child: PageView(
+            controller: null,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            children: [
+              Stack(
                 children: [
-                  Stack(
+                  PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (value) {
+                      setState(() {
+                        currentPagePosition = value.toDouble();
+                      });
+                    },
                     children: [
-                      PageView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: _pageController,
-                        onPageChanged: (value) {
-                          setState(() {
-                            currentPagePosition = value.toDouble();
-                          });
-                        },
-                        children: [
-                          // NOTE: onboarding widgets
-                          phoneNumStep,
-                          emailStep,
-                          passwordStep,
-                          confirmPasswordStep,
-                          namingStep,
-                        ],
-                      ),
-                      // NOTE: DOTS
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 10.0,
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: DotsIndicator(
-                            // Shows the user their progress
-                            dotsCount: 5,
-                            position: currentPagePosition,
-                            decorator: DotsDecorator(
-                              size: const Size.square(9.0),
-                              activeSize: const Size(18.0, 9.0),
-                              activeShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // NOTE: BACK PAGE
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15.0,
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: TextButton(
-                            onPressed: currentPagePosition != 0
-                                ? previousPage
-                                : () {
-                                    context.pop();
-                                  },
-                            child: currentPagePosition != 0
-                                ? const Text("Back")
-                                : SizedBox(),
-                          ),
-                        ),
-                      ),
-                      // NOTE: CANCEL
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15.0,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.pop();
-                          },
-                          child: const Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: Icon(Icons.cancel),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // NOTE: NEXT PAGE
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 15.0,
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton(
-                            onPressed: currentPagePosition != 4
-                                ? nextPage
-                                : () {
-                                    signUp();
-                                  },
-                            child: currentPagePosition != 4
-                                ? const Text("Next")
-                                : const Text("Sign Up"),
-                          ),
-                        ),
-                      ),
+                      // NOTE: onboarding widgets
+                      phoneNumStep,
+                      emailStep,
+                      passwordStep,
+                      confirmPasswordStep,
+                      namingStep,
                     ],
-                  )
+                  ),
+                  // NOTE: DOTS
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 10.0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: DotsIndicator(
+                        // Shows the user their progress
+                        dotsCount: 5,
+                        position: currentPagePosition,
+                        decorator: DotsDecorator(
+                          size: const Size.square(9.0),
+                          activeSize: const Size(18.0, 9.0),
+                          activeShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // NOTE: BACK PAGE
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15.0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: TextButton(
+                        onPressed: currentPagePosition != 0
+                            ? previousPage
+                            : () {
+                                context.pop();
+                              },
+                        child: currentPagePosition != 0
+                            ? const Text("Back")
+                            : const SizedBox(),
+                      ),
+                    ),
+                  ),
+                  // NOTE: CANCEL
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15.0,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: const Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Icon(Icons.cancel),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // NOTE: NEXT PAGE
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: 15.0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: TextButton(
+                        onPressed: currentPagePosition != 4
+                            ? nextPage
+                            : () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                showLoading();
+                                signUp().then((value) {
+                                  hideLoading();
+                                });
+                              },
+                        child: currentPagePosition != 4
+                            ? const Text("Next")
+                            : const Text("Sign Up"),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -769,87 +754,92 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     });
   }
 
-  void onVerifyCodeChange(String verifyCode) {
-    setState(() {
-      currentVerifyCode = verifyCode;
-    });
-  }
-
   Future<SignUpResult?> signUp() async {
-    final result;
+    final SignUpResult? result;
 
-    safePrint("So MF trying to sign up?");
+    if (await validateAllInput()) {
+      result = await ref.read(authControllerProvider).signUp(
+            email: emailController.text,
+            password: passwordController.text,
+            phoneNum: currentPhoneNum,
+            givenName: currentFirstName,
+            lastName: currentLastName,
+            nickname: currentNickname,
+          );
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                "The sign up information might already be used. \nTry logging in or retrieve password by recovery."),
+          ),
+        );
+      }
+    } else {
+      result = null;
+    }
 
-    // DEBUG: DISABLE LATER
-    // if (await validateAllInput()) {
-    //   safePrint("YES YOU CAN SIGN UP");
-    //   showLoading();
-    //   result = await ref.read(authControllerProvider).signUp(
-    //         email: emailController.text,
-    //         password: passwordController.text,
-    //         phoneNum: currentPhoneNum,
-    //         givenName: currentFirstName,
-    //         lastName: currentLastName,
-    //         nickname: currentNickname,
-    //       );
-    // } else {
-    //   safePrint("noo you cannot");
-    //   result = null;
-    // }
+    if (result != null) {
+      if (result.nextStep.signUpStep == AuthSignUpStep.confirmSignUp) {
+        showDialog(
+          context: context,
+          builder: (context) => confirmSignUpDialog,
+        );
+      }
+    }
 
-    // if (result != null) {
-    //   if (result!.nextStep.signUpStep == AuthSignUpStep.confirmSignUp) {
-    //     showDialog(
-    //       context: context,
-    //       builder: (context) => confirmSignUpDialog,
-    //     );
-    //   }
-    // }
-
-    hideLoading();
+    return result;
 
     showDialog(
       context: context,
       builder: (context) => confirmSignUpDialog,
     );
-
-    // return result;
   }
 
   void showLoading() {
-    setState(() {
-      _loading = true;
-    });
+    if (context.mounted) {
+      context.loaderOverlay.show();
+    }
+    // NOTE: for customize loading screen
+    // setState(() {
+    //   _loading = true;
+    // });
   }
 
   void hideLoading() {
-    setState(() {
-      _loading = false;
-    });
+    if (context.mounted) {
+      context.loaderOverlay.hide();
+    }
+
+    // NOTE: for customize loading screen
+    // setState(() {
+    //   _loading = false;
+    // });
   }
 
   void nextPage() {
     _pageController.animateToPage(
       currentPagePosition.toInt() + 1,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       curve: Curves.easeIn,
     );
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   void animateToPage(int index) {
     _pageController.animateToPage(
       index,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       curve: Curves.easeIn,
     );
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   void previousPage() {
     _pageController.animateToPage(
       currentPagePosition.toInt() - 1,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       curve: Curves.easeIn,
     );
+    FocusManager.instance.primaryFocus?.unfocus();
   }
-
 }

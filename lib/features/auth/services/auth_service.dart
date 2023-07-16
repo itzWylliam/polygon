@@ -33,37 +33,33 @@ class AuthService {
   // SOURCE: AWS AMPLIFY ---- ---- ----
   Future<SignUpResult?> signUp(SignUpEntry entry) async {
     try {
-
       // TODO: validate duplicated user
       final userAttributes = {
         AuthUserAttributeKey.email: entry.email,
         AuthUserAttributeKey.givenName: entry.givenName,
         AuthUserAttributeKey.familyName: entry.lastName,
-        if (entry.nickname != null) 
+        AuthUserAttributeKey.phoneNumber: entry.phoneNum,
+        if (entry.nickname != null)
           AuthUserAttributeKey.nickname: entry.nickname!,
-      // additional attributes as needed
+        // additional attributes as needed
       };
+
+      safePrint("Signing up... \n\tDetails:\n\t\tUsername: ${entry.email}\n\t\tEmail: ${entry.email}\n\t\tPassword: ${entry.password}\n\t\tFirst Name: ${entry.givenName}\n\t\tLast Name: ${entry.lastName}");
+
       final result = await Amplify.Auth.signUp(
-        username: entry.phoneNum,
+        username: entry.email,
         password: entry.password,
         options: SignUpOptions(
           userAttributes: userAttributes,
         ),
       );
       await _handleSignUpResult(result);
+      safePrint("Sign Up Result: ${result}");
       return result;
     } on AuthException catch (e) {
       safePrint('User Sign Up Error: ${e.message}');
       return null;
     }
-    
-  }
-
-// NOTE: MANUAL SIGN UP CONFIRM
-  // SOURCE: AWS AMPLIFY ---- ---- ----
-  Future<void> confirmSignUp({String }) async {
-  // TODO: IMPLEMENT SIGN UP CONFIRMATION 
-      // TODO: Validate which input username is associated with
   }
 
 // COMPLETE: AMAZON SIGN IN
@@ -86,7 +82,7 @@ class AuthService {
     }
   }
 
-// COMPLETE: GOOGLE SIGN IN
+// NOTE: ERROR WHEN REQUESTING PHONE NUMBER
   Future<SignInResult?> googleSignIn() async {
     try {
       final result = await Amplify.Auth.signInWithWebUI(
@@ -110,9 +106,9 @@ class AuthService {
   Future<SignOutResult> signOut() async {
     final result = await Amplify.Auth.signOut();
     if (result is CognitoCompleteSignOut) {
-      safePrint("Sign Out Successful - - -  ${result}");
+      safePrint("Sign Out Successful - - -  $result");
     } else if (result is CognitoFailedSignOut) {
-      safePrint("Sign Out Unsucessful - - - ${result}");
+      safePrint("Sign Out Unsucessful - - - $result");
     }
     return result;
   }
@@ -134,6 +130,7 @@ class AuthService {
     // FIXME: ADD LOGIC
     return true;
   }
+
   Future<AuthUser> getCurrentUser() async {
     final user = await Amplify.Auth.getCurrentUser();
     return user;
@@ -152,6 +149,26 @@ class AuthService {
         break;
     }
   }
+
+  Future<SignUpResult?> confirmUser({
+    required String username,
+    required String confirmationCode,
+  }) async {
+    try {
+      final result = await Amplify.Auth.confirmSignUp(
+        username: username,
+        confirmationCode: confirmationCode,
+      );
+      // Check if further confirmations are needed or if
+      // the sign up is complete.
+      await _handleSignUpResult(result);
+      return result;
+    } on AuthException catch (e) {
+      safePrint('Error confirming user: ${e.message}');
+      return null;
+    }
+  }
+
   // SOURCE: AWS AMPLIFY ---- ---- ----
   void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
     safePrint(
@@ -159,6 +176,7 @@ class AuthService {
       'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
     );
   }
+
   // SOURCE: AWS AMPLIFY ---- ---- ----
   Future<void> _handleSignInResult(SignInResult result, String username) async {
     switch (result.nextStep.signInStep) {
@@ -175,15 +193,14 @@ class AuthService {
         safePrint(prompt);
         break;
       case AuthSignInStep.resetPassword:
-        
         safePrint('Invalid Feature: Reset Password');
         break;
-        
-        // final resetResult = await Amplify.Auth.resetPassword(
-        //   username: username,
-        // );
-        // await _handleResetPasswordResult(resetResult);
-        // break;
+
+      // final resetResult = await Amplify.Auth.resetPassword(
+      //   username: username,
+      // );
+      // await _handleResetPasswordResult(resetResult);
+      // break;
       case AuthSignInStep.confirmSignUp:
         // Resend the sign up code to the registered device.
         final resendResult = await Amplify.Auth.resendSignUpCode(
@@ -197,7 +214,6 @@ class AuthService {
     }
   }
 
-  
   Future<void> resetPassword(String username) async {
     try {
       final result = await Amplify.Auth.resetPassword(
@@ -220,5 +236,4 @@ class AuthService {
         break;
     }
   }
-
 }

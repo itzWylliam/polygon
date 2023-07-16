@@ -74,4 +74,8 @@ class AuthController {
   Future<bool> deleteUser() async {
     return ref.read(authRepositoryProvider).deleteUser();
   }
+
+  Future<SignUpResult?> confirmUser(String username, String code) async {
+    return ref.read(authRepositoryProvider).confirmUser(username, code);
+  }
 }

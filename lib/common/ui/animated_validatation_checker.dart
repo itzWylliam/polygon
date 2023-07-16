@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AnimatedChecker extends StatefulHookConsumerWidget {
   final double fade_duration;
 
-  AnimatedChecker({
+  const AnimatedChecker({
     super.key,
     this.fade_duration = 500,
   });
@@ -56,7 +55,7 @@ class _animatedCheckerState extends ConsumerState<AnimatedChecker>
                   child: Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0)
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0)
                           .copyWith(bottom: 0),
                       child: Icon(Icons.check_rounded,
                           size: 27,

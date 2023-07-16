@@ -1,6 +1,18 @@
 const amplifyconfig = ''' {
     "UserAgent": "aws-amplify-cli/2.0",
     "Version": "1.0",
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "AdminQueries": {
+                    "endpointType": "REST",
+                    "endpoint": "https://hvoak3uhme.execute-api.us-east-1.amazonaws.com/dev",
+                    "region": "us-east-1",
+                    "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+                }
+            }
+        }
+    },
     "auth": {
         "plugins": {
             "awsCognitoAuthPlugin": {
@@ -12,34 +24,46 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:aca777ad-bb1b-48cf-aca3-c18003a24b4d",
+                            "PoolId": "us-east-1:0f529188-c766-4ce0-914a-67b85c3ece32",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_o6BugnzdY",
-                        "AppClientId": "1eoflavfm1oqqe5mikkdstub5g",
+                        "PoolId": "us-east-1_WWGOAZjiV",
+                        "AppClientId": "1s98ergcq4j9uts776qb11gmbu",
                         "Region": "us-east-1"
                     }
                 },
                 "GoogleSignIn": {
                     "Permissions": "email,profile,openid",
-                    "ClientId-WebApp": "304930360290-hia7o82d6gg290pavvsivmi6t5kbg055.apps.googleusercontent.com"
+                    "ClientId-WebApp": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com"
                 },
                 "Auth": {
                     "Default": {
+                        "OAuth": {
+                            "WebDomain": "polygond185e634-d185e634-dev.auth.us-east-1.amazoncognito.com",
+                            "AppClientId": "1s98ergcq4j9uts776qb11gmbu",
+                            "SignInRedirectURI": "polygon://signin/,polygon://signin/",
+                            "SignOutRedirectURI": "polygon://signout/",
+                            "Scopes": [
+                                "phone",
+                                "email",
+                                "openid",
+                                "profile",
+                                "aws.cognito.signin.user.admin"
+                            ]
+                        },
                         "authenticationFlowType": "CUSTOM_AUTH",
-                        "socialProviders": [],
+                        "socialProviders": [
+                            "GOOGLE"
+                        ],
                         "usernameAttributes": [
-                            "PHONE_NUMBER"
+                            "EMAIL"
                         ],
                         "signupAttributes": [
-                            "EMAIL",
-                            "FAMILY_NAME",
-                            "GIVEN_NAME",
-                            "PHONE_NUMBER"
+                            "EMAIL"
                         ],
                         "passwordProtectionSettings": {
                             "passwordPolicyMinLength": 8,
@@ -50,7 +74,7 @@ const amplifyconfig = ''' {
                             "SMS"
                         ],
                         "verificationMechanisms": [
-                            "PHONE_NUMBER"
+                            "EMAIL"
                         ]
                     }
                 }

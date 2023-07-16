@@ -1,5 +1,4 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:flutter/material.dart';
 import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
 import 'package:polygon/features/auth/services/auth_service.dart';
@@ -30,6 +29,10 @@ class AuthRepository {
 
   Future<SignUpResult?> manualSignUp(SignUpEntry entry) async {
     return authService.signUp(entry);
+  }
+
+  Future<SignUpResult?> confirmUser(String username, String confirmationCode) async {
+    return authService.confirmUser(username: username, confirmationCode: confirmationCode);
   }
 
   Future<SignOutResult> signOut() async {

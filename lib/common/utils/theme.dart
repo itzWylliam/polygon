@@ -20,10 +20,10 @@ ThemeData getPrimaryTheme(BuildContext context, bool isDarkTheme) {
         ),
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.all(
-          isDarkTheme ? Color.fromARGB(255, 117, 208, 32) : Color.fromARGB(255, 0, 123, 60)),
+          isDarkTheme ? const Color.fromARGB(255, 117, 208, 32) : const Color.fromARGB(255, 0, 123, 60)),
     ),
     listTileTheme: ListTileThemeData(
-        iconColor: isDarkTheme ? Color.fromARGB(255, 117, 208, 32) : Color.fromARGB(255, 0, 123, 60)),
+        iconColor: isDarkTheme ? const Color.fromARGB(255, 117, 208, 32) : const Color.fromARGB(255, 0, 123, 60)),
     appBarTheme: AppBarTheme(
         backgroundColor: isDarkTheme ? Colors.black : Colors.white,
         iconTheme:

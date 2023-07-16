@@ -1,4 +1,3 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:polygon/common/utils/specific_field_val.dart';
 import 'package:string_validator/string_validator.dart';

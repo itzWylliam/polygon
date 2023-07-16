@@ -11,21 +11,21 @@
     "UnauthRoleArn": {
       "Type": "String"
     },
-    "authpolygonUserPoolId": {
+    "authpolygond185e634UserPoolId": {
       "Type": "String",
-      "Default": "authpolygonUserPoolId"
+      "Default": "authpolygond185e634UserPoolId"
     },
-    "authpolygonIdentityPoolId": {
+    "authpolygond185e634IdentityPoolId": {
       "Type": "String",
-      "Default": "authpolygonIdentityPoolId"
+      "Default": "authpolygond185e634IdentityPoolId"
     },
-    "authpolygonAppClientID": {
+    "authpolygond185e634AppClientID": {
       "Type": "String",
-      "Default": "authpolygonAppClientID"
+      "Default": "authpolygond185e634AppClientID"
     },
-    "authpolygonAppClientIDWeb": {
+    "authpolygond185e634AppClientIDWeb": {
       "Type": "String",
-      "Default": "authpolygonAppClientIDWeb"
+      "Default": "authpolygond185e634AppClientIDWeb"
     }
   },
   "Conditions": {
@@ -39,24 +39,24 @@
     }
   },
   "Resources": {
-    "polygonGroup": {
+    "PolygonGroup": {
       "Type": "AWS::Cognito::UserPoolGroup",
       "Properties": {
         "UserPoolId": {
-          "Ref": "authpolygonUserPoolId"
+          "Ref": "authpolygond185e634UserPoolId"
         },
         "Description": "override success",
-        "GroupName": "polygon",
+        "GroupName": "Polygon",
         "Precedence": 1,
         "RoleArn": {
           "Fn::GetAtt": [
-            "polygonGroupRole",
+            "PolygonGroupRole",
             "Arn"
           ]
         }
       }
     },
-    "polygonGroupRole": {
+    "PolygonGroupRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -72,7 +72,7 @@
               "Condition": {
                 "StringEquals": {
                   "cognito-identity.amazonaws.com:aud": {
-                    "Ref": "authpolygonIdentityPoolId"
+                    "Ref": "authpolygond185e634IdentityPoolId"
                   }
                 },
                 "ForAnyValue:StringLike": {
@@ -87,9 +87,9 @@
             "",
             [
               {
-                "Ref": "authpolygonUserPoolId"
+                "Ref": "authpolygond185e634UserPoolId"
               },
-              "-polygonGroupRole"
+              "-PolygonGroupRole"
             ]
           ]
         }
@@ -158,12 +158,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "polygon",
+            "polygond185e634",
             {
               "Fn::Join": [
                 "",
                 [
-                  "polygon-ExecutionRole-",
+                  "polygond185e634-ExecutionRole-",
                   {
                     "Ref": "env"
                   }
@@ -241,16 +241,16 @@
           "Ref": "UnauthRoleArn"
         },
         "identityPoolId": {
-          "Ref": "authpolygonIdentityPoolId"
+          "Ref": "authpolygond185e634IdentityPoolId"
         },
         "userPoolId": {
-          "Ref": "authpolygonUserPoolId"
+          "Ref": "authpolygond185e634UserPoolId"
         },
         "appClientIDWeb": {
-          "Ref": "authpolygonAppClientIDWeb"
+          "Ref": "authpolygond185e634AppClientIDWeb"
         },
         "appClientID": {
-          "Ref": "authpolygonAppClientID"
+          "Ref": "authpolygond185e634AppClientID"
         },
         "region": {
           "Ref": "AWS::Region"
@@ -267,10 +267,10 @@
     }
   },
   "Outputs": {
-    "polygonGroupRole": {
+    "PolygonGroupRole": {
       "Value": {
         "Fn::GetAtt": [
-          "polygonGroupRole",
+          "PolygonGroupRole",
           "Arn"
         ]
       }
