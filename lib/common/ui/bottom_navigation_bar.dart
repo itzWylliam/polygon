@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polygon/common/ui/nav_bar_notifier.dart';
@@ -6,16 +7,13 @@ import 'package:polygon/common/utils/bottom_nav_items.dart';
 class CustomBottomNavigationBar extends StatefulHookConsumerWidget {
   CustomBottomNavigationBar({
     super.key,
-    required this.notifier,
   });
 
-  final NavigationBarNotifier notifier;
-
-  final _customBottomNavigationBarState _customBarState = _customBottomNavigationBarState();
+  final _customBottomNavigationBarState _customBarState =
+      _customBottomNavigationBarState();
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _customBarState;
+  ConsumerState<ConsumerStatefulWidget> createState() => _customBarState;
 }
 
 class _customBottomNavigationBarState
@@ -24,7 +22,6 @@ class _customBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: ThemeData(
         splashColor: Colors.transparent,
@@ -80,7 +77,9 @@ class _customBottomNavigationBarState
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: 4,
-            width: widget.notifier.index == currentPageIndex ? 47.5 : 0, 
+            width: ref.read(navigationBarNotifier).index == currentPageIndex
+                ? 47.5
+                : 0,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(2),
@@ -89,9 +88,16 @@ class _customBottomNavigationBarState
         ),
         IconButton(
           onPressed: () {
-            widget.notifier.index = currentPageIndex;
+            ref.read(navigationBarNotifier).index = currentPageIndex;
+            safePrint(
+                "Current page index: ${ref.read(navigationBarNotifier).index}");
+            setState(() {
+              ref.read(navigationBarNotifier).index = currentPageIndex;
+              safePrint(
+                  "Current page index: ${ref.read(navigationBarNotifier).index}");
+            });
           },
-          icon: widget.notifier.index == currentPageIndex
+          icon: ref.read(navigationBarNotifier).index == currentPageIndex
               ? Icon(
                   activeIcon,
                   color: Colors.black,

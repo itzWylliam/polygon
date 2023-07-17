@@ -55,7 +55,7 @@ const amplifyconfig = ''' {
                                 "aws.cognito.signin.user.admin"
                             ]
                         },
-                        "authenticationFlowType": "CUSTOM_AUTH",
+                        "authenticationFlowType": "USER_SRP_AUTH",
                         "socialProviders": [
                             "GOOGLE"
                         ],

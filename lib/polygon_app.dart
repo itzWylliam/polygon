@@ -14,7 +14,6 @@ class Polygon extends ConsumerWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: MaterialApp.router(
-      
         theme: getPrimaryTheme(context, ref.watch(themeProvider)),
         
         debugShowCheckedModeBanner: false,

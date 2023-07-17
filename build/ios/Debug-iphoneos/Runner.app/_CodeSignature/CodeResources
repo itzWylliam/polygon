@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		zCSRXmqKueYhtjzHVdjZevV6OvI=
+		XEj8FmrzgJ4HTenuU4vp8iUAoVA=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		6Ke8BcNRf3AR8V7+gWlQyB+zk9Y=
+		l5yvEL0ZlLumN6/c7Js1jtnL1CI=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		jcOxz09nmPt7voSL+qpHQ4imKAw=
+		Akjrr+vk0k87Yryg/ElbC7ShUIc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		iKRlWYB0Q8yuM3ry9BZWyFETub0=
+		47PEzNjTbuQr3SSGUK8oa1xsQUY=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/amplify_auth_cognito_dart/lib/src/workers/workers.min.js</key>
 		<data>
@@ -2574,7 +2574,7 @@
 		</data>
 		<key>Frameworks/PhoneNumberKit.framework/PhoneNumberKit</key>
 		<data>
-		AqtJ3q31Kr0ESXC9soBXvskEbiM=
+		cDEosuAXlsjJJPz4Spwy7RdFvo0=
 		</data>
 		<key>Frameworks/PhoneNumberKit.framework/PhoneNumberMetadata.json</key>
 		<data>
@@ -2594,7 +2594,7 @@
 		</data>
 		<key>Frameworks/amplify_auth_cognito.framework/amplify_auth_cognito</key>
 		<data>
-		iv9RaCLnkyfd8jZfB1itLQjM6LI=
+		57brcwaVvY+rV2+9z59qlP3aJ+E=
 		</data>
 		<key>Frameworks/amplify_secure_storage.framework/Info.plist</key>
 		<data>
@@ -2606,7 +2606,7 @@
 		</data>
 		<key>Frameworks/amplify_secure_storage.framework/amplify_secure_storage</key>
 		<data>
-		Krino/2600/dCV+BvEXh5IvML60=
+		zDi5hktoXHEVHUKdVvJfupQEcmo=
 		</data>
 		<key>Frameworks/device_info_plus.framework/Info.plist</key>
 		<data>
@@ -2618,7 +2618,7 @@
 		</data>
 		<key>Frameworks/device_info_plus.framework/device_info_plus</key>
 		<data>
-		grZN1iz5UeoFYkLZQqBFqqiu/Zc=
+		n2q1dv6ZEfF5Xhj20Ry+veWf3b4=
 		</data>
 		<key>Frameworks/package_info_plus.framework/Info.plist</key>
 		<data>
@@ -2630,7 +2630,7 @@
 		</data>
 		<key>Frameworks/package_info_plus.framework/package_info_plus</key>
 		<data>
-		POOj40nz6lAvK8ES1psrBmJLf0k=
+		JLwlmhjjU0Zx6OwXuaOBzmM1y+A=
 		</data>
 		<key>Frameworks/path_provider_foundation.framework/Info.plist</key>
 		<data>
@@ -2642,7 +2642,7 @@
 		</data>
 		<key>Frameworks/path_provider_foundation.framework/path_provider_foundation</key>
 		<data>
-		24UsY2r03WoUSfkOB0Ad3YJqOHE=
+		LUvn2xhg6Q3Gj/E95WwgHKrqUao=
 		</data>
 		<key>Frameworks/phone_number.framework/Info.plist</key>
 		<data>
@@ -2654,7 +2654,7 @@
 		</data>
 		<key>Frameworks/phone_number.framework/phone_number</key>
 		<data>
-		V9dinlCcqOWXDBuMMOZryNRo1LA=
+		UYejx0SbBl5iPN7VJJ+qk4d9vUE=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -2745,7 +2745,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0tX5D3Wows8C4Vcjs/CxWFJKV/Z9fydE59jLoI+m8h0=
+			dAkfMXEGmz/pzP16tI4rGK/HF4Mvy0+p+J9ErFwth6w=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -2759,7 +2759,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Z1n1CmJgM+DRR17X/L9EuR3fHZlveTJJux59IMmTdic=
+			XxHSUWpeMwlgzbyFo1nJZb1znZxUgpcH+WiKyQfz90M=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -2787,7 +2787,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kGfwzsi8LJdKAl34772aEn0EHW6rNE0HJzDFoxH3Om4=
+			g0Yoy6bE1d16/fhuIcc0eUoCAH31JgNW27x60RdJAkM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -2808,7 +2808,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			sMoRWqdoISCTlaEQR2BGcwjY4FwxP7WOCkTuDSa5Beg=
+			AJB4Mv7Oq44T/j3NXERJ+C674K/MRblBAgMK3kmOriQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/amplify_auth_cognito_dart/lib/src/workers/workers.min.js</key>
@@ -7169,7 +7169,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XuHYYmNpsMm0mt3/DisKX/U9M2PuBR+iyEaYddRuouw=
+			Ll78s6RL7cvwOqYu4lsCPp1t2nv1t/zyriSTJMFqGq4=
 			</data>
 		</dict>
 		<key>Frameworks/PhoneNumberKit.framework/PhoneNumberMetadata.json</key>
@@ -7204,7 +7204,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			30yId6U1as60PYc6k3HXlUn6D9Jnloj3oc4sMtwno38=
+			gWHy+JywO4FJMLhSfUK8XS7n6lVyEMkwgg1xoKFRjlI=
 			</data>
 		</dict>
 		<key>Frameworks/amplify_secure_storage.framework/Info.plist</key>
@@ -7225,7 +7225,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ib3kwlgzSO3yzkY26ceLQzthiVlZAVLg5IENcUbJvuo=
+			MfcWe4/bfbM0rN+qG59Z49ecOQuQjsT1gq+Dp1CS3XY=
 			</data>
 		</dict>
 		<key>Frameworks/device_info_plus.framework/Info.plist</key>
@@ -7246,7 +7246,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			IDPZXaxnwzWh93xvJzzHQDcdv7XBg810VskeO5/H7ek=
+			4/QbPqX8U2DPg91ALeqeII9BD5seH9I/YYcdMmI1NX8=
 			</data>
 		</dict>
 		<key>Frameworks/package_info_plus.framework/Info.plist</key>
@@ -7267,7 +7267,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5rEacaxcIiOPnjBXGqJYhITRkDARd/IL/2PnfEZNMxs=
+			0NMbaqNG/DVrnx/l3jXHJBAFzUDBTucT3qdDqBQuHqk=
 			</data>
 		</dict>
 		<key>Frameworks/path_provider_foundation.framework/Info.plist</key>
@@ -7288,7 +7288,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EcYEicyR1J2A3CpLtVbDu53u27vAeuAI412sPM3tBBU=
+			WegMJweyMRTBKT2dO5vWGdLNDzhx9l5jONcrmjuBvA0=
 			</data>
 		</dict>
 		<key>Frameworks/phone_number.framework/Info.plist</key>
@@ -7309,7 +7309,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nA+y0zbnzKtttGYDS92ndcbCGCnEpi8NsoDk/WL+stU=
+			rHcU6nP9GdgSITVeFKjKJfpKMc4/vJc7exhAFvPiXPQ=
 			</data>
 		</dict>
 		<key>embedded.mobileprovision</key>

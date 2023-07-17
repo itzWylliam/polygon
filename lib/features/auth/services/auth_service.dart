@@ -196,6 +196,7 @@ class AuthService {
         safePrint('Invalid Feature: Reset Password');
         break;
 
+      // NOTE: RESETING PASSWORD
       // final resetResult = await Amplify.Auth.resetPassword(
       //   username: username,
       // );

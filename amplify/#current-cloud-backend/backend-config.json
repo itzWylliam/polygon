@@ -26,35 +26,7 @@
   "auth": {
     "polygond185e634": {
       "customAuth": false,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "polygond185e634DefineAuthChallenge",
-          "triggerProvider": "Cognito"
-        },
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "polygond185e634CreateAuthChallenge",
-          "triggerProvider": "Cognito"
-        },
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "polygond185e634VerifyAuthChallengeResponse",
-          "triggerProvider": "Cognito"
-        }
-      ],
+      "dependsOn": [],
       "frontendAuthConfig": {
         "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
@@ -111,21 +83,6 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "polygond185e634CreateAuthChallenge": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "polygond185e634DefineAuthChallenge": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "polygond185e634VerifyAuthChallengeResponse": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
     }
   },
   "parameters": {
@@ -150,62 +107,6 @@
         {
           "category": "function",
           "resourceName": "AdminQueriesf97b2bef"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634CreateAuthChallenge_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634CreateAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634CreateAuthChallenge_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634CreateAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634DefineAuthChallenge_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634DefineAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634DefineAuthChallenge_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634DefineAuthChallenge"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634VerifyAuthChallengeResponse_RECAPTCHASECRET": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634VerifyAuthChallengeResponse"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634VerifyAuthChallengeResponse_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634VerifyAuthChallengeResponse"
-        }
-      ]
-    },
-    "AMPLIFY_function_polygond185e634VerifyAuthChallengeResponse_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "polygond185e634VerifyAuthChallengeResponse"
         }
       ]
     }

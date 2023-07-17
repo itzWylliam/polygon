@@ -23,6 +23,7 @@ double _elementOpacity = 1;
 
 late FormFieldV1 passwordField;
 late FormFieldV1 phoneNumField;
+late FormFieldV1 emailField;
 
 class SignInPage extends StatefulHookConsumerWidget {
   const SignInPage({super.key});
@@ -34,14 +35,23 @@ class SignInPage extends StatefulHookConsumerWidget {
 class SignInConsumerState extends ConsumerState<SignInPage> {
   late TextEditingController phoneNumFieldController;
   late TextEditingController passwordFieldController;
+  late TextEditingController emailFieldController;
 
   @override
   Widget build(BuildContext context) {
     useEffect(() {
       phoneNumFieldController = TextEditingController();
       passwordFieldController = TextEditingController();
+      emailFieldController = TextEditingController();
       return null;
     });
+
+    emailField = FormFieldV1(
+      formFade: _elementOpacity == 0,
+      formFieldController: emailFieldController,
+      formHintText: "Email",
+      specificFieldValueType: SpecificFieldValueType.email,
+    );
 
     phoneNumField = FormFieldV1(
       formFade: _elementOpacity == 0,
@@ -90,8 +100,8 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
         _elementOpacity = 0;
         showLoading();
 
-        if (await validateInput(SpecificFieldValueType.phonenumber,
-                phoneNumField.getPhoneNumber()!) &&
+        if (await validateInput(
+                SpecificFieldValueType.email, emailFieldController.text) &&
             await passwordFieldController.text != '') {
           manualSignIn(ref).then((value) {
             hideLoading();
@@ -169,7 +179,10 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
                     children: [
-                      phoneNumField,
+                      emailField,
+
+                      //  NOTE: for phone number sign in
+                      // phoneNumField,
                       const SizedBox(
                         height: 25,
                       ),
@@ -246,7 +259,8 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
   // COMPLETE: manual sign in
   Future<String?> manualSignIn(WidgetRef ref) async {
     final result = await ref.read(authControllerProvider).manualSignIn(
-          username: phoneNumField.getPhoneNumber()!,
+          username:
+              emailFieldController.text, // phoneNumField.getPhoneNumber()!,
           password: passwordFieldController.text,
         );
 
@@ -258,12 +272,17 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
       }
     } else {
       safePrint("Manual Sign In Failed.");
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Sign In Unsuccessful."),
+          ),
+        );
+      }
     }
 
-    // DEBUG: delete later
-    if (context.mounted) {
-      context.goNamed(PolygonRoute.home.name);
-    }
+    safePrint("Sign in result: \n \t ${result}");
 
     return null;
   }

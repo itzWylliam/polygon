@@ -152,93 +152,6 @@
         }
       }
     },
-    "AuthTriggerCustomLambdaStack": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json",
-        "Parameters": {
-          "env": "dev",
-          "userpoolId": {
-            "Fn::GetAtt": [
-              "authpolygond185e634",
-              "Outputs.UserPoolId"
-            ]
-          },
-          "userpoolArn": {
-            "Fn::GetAtt": [
-              "authpolygond185e634",
-              "Outputs.UserPoolArn"
-            ]
-          },
-          "snsRoleArn": {
-            "Fn::GetAtt": [
-              "authpolygond185e634",
-              "Outputs.CreatedSNSRole"
-            ]
-          },
-          "functionpolygond185e634DefineAuthChallengeLambdaExecutionRole": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634DefineAuthChallenge",
-              "Outputs.LambdaExecutionRoleArn"
-            ]
-          },
-          "functionpolygond185e634DefineAuthChallengeArn": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634DefineAuthChallenge",
-              "Outputs.Arn"
-            ]
-          },
-          "functionpolygond185e634DefineAuthChallengeName": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634DefineAuthChallenge",
-              "Outputs.Name"
-            ]
-          },
-          "functionpolygond185e634CreateAuthChallengeLambdaExecutionRole": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634CreateAuthChallenge",
-              "Outputs.LambdaExecutionRoleArn"
-            ]
-          },
-          "functionpolygond185e634CreateAuthChallengeArn": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634CreateAuthChallenge",
-              "Outputs.Arn"
-            ]
-          },
-          "functionpolygond185e634CreateAuthChallengeName": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634CreateAuthChallenge",
-              "Outputs.Name"
-            ]
-          },
-          "functionpolygond185e634VerifyAuthChallengeResponseLambdaExecutionRole": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634VerifyAuthChallengeResponse",
-              "Outputs.LambdaExecutionRoleArn"
-            ]
-          },
-          "functionpolygond185e634VerifyAuthChallengeResponseArn": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634VerifyAuthChallengeResponse",
-              "Outputs.Arn"
-            ]
-          },
-          "functionpolygond185e634VerifyAuthChallengeResponseName": {
-            "Fn::GetAtt": [
-              "functionpolygond185e634VerifyAuthChallengeResponse",
-              "Outputs.Name"
-            ]
-          }
-        }
-      },
-      "DependsOn": [
-        "authpolygond185e634",
-        "functionpolygond185e634DefineAuthChallenge",
-        "functionpolygond185e634CreateAuthChallenge",
-        "functionpolygond185e634VerifyAuthChallengeResponse"
-      ]
-    },
     "authpolygond185e634": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
@@ -262,8 +175,8 @@
           "aliasAttributes": "",
           "userpoolClientGenerateSecret": false,
           "userpoolClientRefreshTokenValidity": 30,
-          "userpoolClientWriteAttributes": "email",
-          "userpoolClientReadAttributes": "email",
+          "userpoolClientWriteAttributes": "address,family_name,given_name,phone_number,email",
+          "userpoolClientReadAttributes": "address,email,family_name,given_name,nickname,phone_number,email_verified,phone_number_verified",
           "userpoolClientLambdaRole": "polygod185e634_userpoolclient_lambda_role",
           "userpoolClientSetAttributes": true,
           "sharedId": "d185e634",
@@ -292,18 +205,17 @@
             ]
           },
           "breakCircularDependency": true,
-          "dependsOn": "[object Object],[object Object],[object Object]",
+          "dependsOn": "",
           "thirdPartyAuth": true,
           "authProviders": "accounts.google.com",
-          "userPoolGroups": true,
+          "userPoolGroups": false,
           "adminQueries": true,
-          "triggers": "{\"DefineAuthChallenge\":[\"captcha-define-challenge\"],\"CreateAuthChallenge\":[\"captcha-create-challenge\"],\"VerifyAuthChallengeResponse\":[\"captcha-verify\"]}",
+          "triggers": "{}",
           "audiences": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com",
           "adminQueryGroup": "Polygon",
           "parentStack": {
             "Ref": "AWS::StackId"
           },
-          "authTriggerConnections": "{\"triggerType\":\"DefineAuthChallenge\",\"lambdaFunctionName\":\"polygond185e634DefineAuthChallenge\"},{\"triggerType\":\"CreateAuthChallenge\",\"lambdaFunctionName\":\"polygond185e634CreateAuthChallenge\"},{\"triggerType\":\"VerifyAuthChallengeResponse\",\"lambdaFunctionName\":\"polygond185e634VerifyAuthChallengeResponse\"}",
           "permissions": "",
           "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"polygon://signin/\",\"polygon://signin/\"],\"LogoutURLs\":[\"polygon://signout/\"]}",
           "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
@@ -370,46 +282,6 @@
               "Outputs.UserPoolId"
             ]
           },
-          "env": "dev"
-        }
-      }
-    },
-    "functionpolygond185e634DefineAuthChallenge": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/polygond185e634DefineAuthChallenge-cloudformation-template.json",
-        "Parameters": {
-          "modules": "captcha-define-challenge",
-          "resourceName": "polygond185e634DefineAuthChallenge",
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634DefineAuthChallenge-32536c52684931443044-build.zip",
-          "env": "dev"
-        }
-      }
-    },
-    "functionpolygond185e634CreateAuthChallenge": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/polygond185e634CreateAuthChallenge-cloudformation-template.json",
-        "Parameters": {
-          "modules": "captcha-create-challenge",
-          "resourceName": "polygond185e634CreateAuthChallenge",
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634CreateAuthChallenge-696e4f504b4f79685465-build.zip",
-          "env": "dev"
-        }
-      }
-    },
-    "functionpolygond185e634VerifyAuthChallengeResponse": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/polygond185e634VerifyAuthChallengeResponse-cloudformation-template.json",
-        "Parameters": {
-          "modules": "captcha-verify",
-          "resourceName": "polygond185e634VerifyAuthChallengeResponse",
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634VerifyAuthChallengeResponse-4e61543139416d353549-build.zip",
           "env": "dev"
         }
       }

@@ -11,6 +11,6 @@ class SearchPage extends StatefulHookConsumerWidget {
 class _searchPageState extends ConsumerState<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text("Search page");
   }
 }

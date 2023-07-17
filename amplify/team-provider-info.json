@@ -20,19 +20,6 @@
         "userPoolGroups": {}
       },
       "function": {
-        "polygond185e634DefineAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634DefineAuthChallenge-32536c52684931443044-build.zip"
-        },
-        "polygond185e634CreateAuthChallenge": {
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634CreateAuthChallenge-696e4f504b4f79685465-build.zip"
-        },
-        "polygond185e634VerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6LfqQg0nAAAAANYNf4KVxpN-j3atHhUaUccs7mOG",
-          "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/polygond185e634VerifyAuthChallengeResponse-4e61543139416d353549-build.zip"
-        },
         "AdminQueriesf97b2bef": {
           "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
           "s3Key": "amplify-builds/AdminQueriesf97b2bef-765338384c6249685355-build.zip"
