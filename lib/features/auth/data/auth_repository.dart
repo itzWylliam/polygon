@@ -51,4 +51,8 @@ class AuthRepository {
   Future<bool> deleteUser() async {
     return authService.deleteUser();
   }
+
+  Future<bool> isUserSignedIn() async {
+    return authService.isUserSignedIn();
+  }
 }

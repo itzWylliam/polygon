@@ -1,18 +1,10 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:polygon/common/navigation/routes.dart';
-import 'package:polygon/common/ui/basic_inputfield_v1.dart';
-import 'package:polygon/common/ui/text_button_v1.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
-import 'package:polygon/features/auth/controllers/auth_controller.dart';
-
-// TODO: pass in email as username ->
-// TODO: how does dialog pop but still notify signup page that verification succeeds?
+import 'package:polygon/common/ui/inputfields/basic_inputfield_v1.dart';
+import 'package:polygon/common/ui/textbuttons/text_button_v1.dart';
+import 'package:polygon/common/utils/enum_constants/specific_field_val.dart';
 
 class VerifyDialog extends HookConsumerWidget {
   final TextEditingController verifyController;

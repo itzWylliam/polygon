@@ -1,8 +1,8 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:polygon/common/ui/nav_bar_notifier.dart';
-import 'package:polygon/common/utils/bottom_nav_items.dart';
+import 'package:polygon/common/ui/bottom_navigation/nav_bar_notifier.dart';
+import 'package:polygon/common/utils/enum_constants/bottom_nav_items.dart';
 
 class CustomBottomNavigationBar extends StatefulHookConsumerWidget {
   CustomBottomNavigationBar({
@@ -60,8 +60,8 @@ class _customBottomNavigationBarState
         inactiveIcon = Icons.search;
       case BottomNavItem.cart:
         currentPageIndex = 2;
-        activeIcon = Icons.shopping_basket;
-        inactiveIcon = Icons.shopping_basket_outlined;
+        activeIcon = Icons.view_timeline_outlined;
+        inactiveIcon = Icons.view_timeline_outlined;
       case BottomNavItem.profile:
         currentPageIndex = 3;
         activeIcon = Icons.person;
@@ -75,7 +75,7 @@ class _customBottomNavigationBarState
         Positioned(
           // TODO: problem with alignment, hiddenn by width parameter
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 100),
             height: 4,
             width: ref.read(navigationBarNotifier).index == currentPageIndex
                 ? 47.5
@@ -88,13 +88,8 @@ class _customBottomNavigationBarState
         ),
         IconButton(
           onPressed: () {
-            ref.read(navigationBarNotifier).index = currentPageIndex;
-            safePrint(
-                "Current page index: ${ref.read(navigationBarNotifier).index}");
             setState(() {
               ref.read(navigationBarNotifier).index = currentPageIndex;
-              safePrint(
-                  "Current page index: ${ref.read(navigationBarNotifier).index}");
             });
           },
           icon: ref.read(navigationBarNotifier).index == currentPageIndex

@@ -1,5 +1,5 @@
 {
-  "Description": "Root Stack for AWS Amplify CLI",
+  "Description": "Root Stack for AWS Amplify Console",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "DeploymentBucketName": {
@@ -152,21 +152,74 @@
         }
       }
     },
-    "authpolygond185e634": {
+    "apiAdminQueries": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/polygond185e634-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
         "Parameters": {
-          "identityPoolName": "polygond185e634_identitypool_d185e634",
-          "allowUnauthenticatedIdentities": false,
-          "resourceNameTruncated": "polygod185e634",
-          "userPoolName": "polygond185e634_userpool_d185e634",
+          "authpolygonUserPoolId": {
+            "Fn::GetAtt": [
+              "authpolygon",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "functionAdminQueriesc354ea72Arn": {
+            "Fn::GetAtt": [
+              "functionAdminQueriesc354ea72",
+              "Outputs.Arn"
+            ]
+          },
+          "functionAdminQueriesc354ea72Name": {
+            "Fn::GetAtt": [
+              "functionAdminQueriesc354ea72",
+              "Outputs.Name"
+            ]
+          },
+          "env": "dev"
+        }
+      }
+    },
+    "apipolygon": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "Parameters": {
+          "AppSyncApiName": "polygon",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authpolygon",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "S3DeploymentBucket": "amplify-polygon-dev-162913-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/f6a129089316821e5d1df0994c9a9cae78371c09",
+          "env": "dev"
+        }
+      }
+    },
+    "authpolygon": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/polygon-cloudformation-template.json",
+        "Parameters": {
+          "identityPoolName": "polygondf52f27d_identitypool_df52f27d",
+          "allowUnauthenticatedIdentities": true,
+          "resourceNameTruncated": "polygodf52f27d",
+          "userPoolName": "polygondf52f27d_userpool_df52f27d",
           "autoVerifiedAttributes": "email",
           "mfaConfiguration": "OPTIONAL",
           "mfaTypes": "SMS Text Message",
-          "smsAuthenticationMessage": "Your authentication code is {####}",
+          "smsAuthenticationMessage": "Your Polygon verification code is {####}",
           "smsVerificationMessage": "Your verification code is {####}",
-          "emailVerificationSubject": "Your Polygon Verification Information",
+          "emailVerificationSubject": "Your Polygon Verification Code",
           "emailVerificationMessage": "The verification code for your Polygon account is {####}.",
           "defaultPasswordPolicy": false,
           "passwordPolicyMinLength": 8,
@@ -175,20 +228,27 @@
           "aliasAttributes": "",
           "userpoolClientGenerateSecret": false,
           "userpoolClientRefreshTokenValidity": 30,
-          "userpoolClientWriteAttributes": "address,family_name,given_name,phone_number,email",
-          "userpoolClientReadAttributes": "address,email,family_name,given_name,nickname,phone_number,email_verified,phone_number_verified",
-          "userpoolClientLambdaRole": "polygod185e634_userpoolclient_lambda_role",
-          "userpoolClientSetAttributes": true,
-          "sharedId": "d185e634",
-          "resourceName": "polygond185e634",
+          "userpoolClientWriteAttributes": "email",
+          "userpoolClientReadAttributes": "email",
+          "userpoolClientLambdaRole": "polygodf52f27d_userpoolclient_lambda_role",
+          "userpoolClientSetAttributes": false,
+          "sharedId": "df52f27d",
+          "resourceName": "polygon",
           "authSelections": "identityPoolAndUserPool",
           "useDefault": "manual",
-          "hostedUI": true,
+          "thirdPartyAuth": true,
+          "authProviders": "accounts.google.com",
           "usernameAttributes": "email",
-          "hostedUIDomainName": "polygond185e634-d185e634",
+          "userPoolGroups": false,
+          "adminQueries": true,
+          "triggers": "{}",
+          "hostedUI": true,
+          "hostedUIDomainName": "polygon",
           "authProvidersUserPool": "Google",
+          "audiences": "304930360290-o5cgcdmaefoajobbf4rq6fr1rf84ff1m.apps.googleusercontent.com",
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "userPoolGroupList": "Polygon",
+          "userPoolGroupList": "polygon",
+          "adminQueryGroup": "AdminPolygon",
           "serviceName": "Cognito",
           "usernameCaseSensitive": false,
           "useEnabledMfas": true,
@@ -206,20 +266,13 @@
           },
           "breakCircularDependency": true,
           "dependsOn": "",
-          "thirdPartyAuth": true,
-          "authProviders": "accounts.google.com",
-          "userPoolGroups": false,
-          "adminQueries": true,
-          "triggers": "{}",
-          "audiences": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com",
-          "adminQueryGroup": "Polygon",
           "parentStack": {
             "Ref": "AWS::StackId"
           },
           "permissions": "",
-          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"polygon://signin/\",\"polygon://signin/\"],\"LogoutURLs\":[\"polygon://signout/\"]}",
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
-          "googleClientId": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com",
+          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"polygon://signin/\"],\"LogoutURLs\":[\"polygon://signout/\"]}",
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
+          "googleClientId": "304930360290-o5cgcdmaefoajobbf4rq6fr1rf84ff1m.apps.googleusercontent.com",
           "env": "dev"
         }
       }
@@ -241,27 +294,27 @@
               "Arn"
             ]
           },
-          "authpolygond185e634UserPoolId": {
+          "authpolygonUserPoolId": {
             "Fn::GetAtt": [
-              "authpolygond185e634",
+              "authpolygon",
               "Outputs.UserPoolId"
             ]
           },
-          "authpolygond185e634AppClientIDWeb": {
+          "authpolygonAppClientIDWeb": {
             "Fn::GetAtt": [
-              "authpolygond185e634",
+              "authpolygon",
               "Outputs.AppClientIDWeb"
             ]
           },
-          "authpolygond185e634AppClientID": {
+          "authpolygonAppClientID": {
             "Fn::GetAtt": [
-              "authpolygond185e634",
+              "authpolygon",
               "Outputs.AppClientID"
             ]
           },
-          "authpolygond185e634IdentityPoolId": {
+          "authpolygonIdentityPoolId": {
             "Fn::GetAtt": [
-              "authpolygond185e634",
+              "authpolygon",
               "Outputs.IdentityPoolId"
             ]
           },
@@ -269,44 +322,17 @@
         }
       }
     },
-    "functionAdminQueriesf97b2bef": {
+    "functionAdminQueriesc354ea72": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/AdminQueriesf97b2bef-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/AdminQueriesc354ea72-cloudformation-template.json",
         "Parameters": {
           "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/AdminQueriesf97b2bef-765338384c6249685355-build.zip",
-          "authpolygond185e634UserPoolId": {
+          "s3Key": "amplify-builds/AdminQueriesc354ea72-765338384c6249685355-build.zip",
+          "authpolygonUserPoolId": {
             "Fn::GetAtt": [
-              "authpolygond185e634",
+              "authpolygon",
               "Outputs.UserPoolId"
-            ]
-          },
-          "env": "dev"
-        }
-      }
-    },
-    "apiAdminQueries": {
-      "Type": "AWS::CloudFormation::Stack",
-      "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
-        "Parameters": {
-          "authpolygond185e634UserPoolId": {
-            "Fn::GetAtt": [
-              "authpolygond185e634",
-              "Outputs.UserPoolId"
-            ]
-          },
-          "functionAdminQueriesf97b2befArn": {
-            "Fn::GetAtt": [
-              "functionAdminQueriesf97b2bef",
-              "Outputs.Arn"
-            ]
-          },
-          "functionAdminQueriesf97b2befName": {
-            "Fn::GetAtt": [
-              "functionAdminQueriesf97b2bef",
-              "Outputs.Name"
             ]
           },
           "env": "dev"
@@ -317,7 +343,7 @@
       "DependsOn": [
         "AuthRole",
         "UnauthRole",
-        "authpolygond185e634"
+        "authpolygon"
       ],
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -425,7 +451,7 @@
         },
         "idpId": {
           "Fn::GetAtt": [
-            "authpolygond185e634",
+            "authpolygon",
             "Outputs.IdentityPoolId"
           ]
         },

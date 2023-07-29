@@ -14,19 +14,20 @@
     },
     "categories": {
       "auth": {
-        "polygond185e634": {
-          "googleClientId": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com"
+        "polygon": {
+          "googleClientId": "304930360290-o5cgcdmaefoajobbf4rq6fr1rf84ff1m.apps.googleusercontent.com"
         },
         "userPoolGroups": {}
       },
       "function": {
-        "AdminQueriesf97b2bef": {
+        "AdminQueriesc354ea72": {
           "deploymentBucketName": "amplify-polygon-dev-162913-deployment",
-          "s3Key": "amplify-builds/AdminQueriesf97b2bef-765338384c6249685355-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesc354ea72-765338384c6249685355-build.zip"
         }
       },
       "api": {
-        "AdminQueries": {}
+        "AdminQueries": {},
+        "polygon": {}
       }
     }
   }

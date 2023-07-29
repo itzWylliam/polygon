@@ -5,9 +5,9 @@
     "env": {
       "Type": "String"
     },
-    "authpolygond185e634UserPoolId": {
+    "authpolygonUserPoolId": {
       "Type": "String",
-      "Default": "authpolygond185e634UserPoolId"
+      "Default": "authpolygonUserPoolId"
     },
     "deploymentBucketName": {
       "Type": "String"
@@ -38,12 +38,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesf97b2bef",
+            "AdminQueriesc354ea72",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesf97b2bef",
+                  "AdminQueriesc354ea72",
                   "-",
                   {
                     "Ref": "env"
@@ -58,9 +58,9 @@
             "ENV": {
               "Ref": "env"
             },
-            "GROUP": "Polygon",
+            "GROUP": "AdminPolygon",
             "USERPOOL": {
-              "Ref": "authpolygond185e634UserPoolId"
+              "Ref": "authpolygonUserPoolId"
             }
           }
         },
@@ -88,12 +88,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesf97b2befLambdaRole",
+            "AdminQueriesc354ea72LambdaRole",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesf97b2befLambdaRole",
+                  "AdminQueriesc354ea72LambdaRole",
                   "-",
                   {
                     "Ref": "env"
@@ -189,7 +189,7 @@
                     },
                     ":userpool/",
                     {
-                      "Ref": "authpolygond185e634UserPoolId"
+                      "Ref": "authpolygonUserPoolId"
                     }
                   ]
                 ]

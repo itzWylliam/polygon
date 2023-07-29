@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/common/utils/enum_constants/specific_field_val.dart';
 
 class BasicInputFieldV1 extends StatefulHookConsumerWidget {
   final TextEditingController textController;

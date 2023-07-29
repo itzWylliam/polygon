@@ -8,7 +8,7 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "polygond185e634"
+          "resourceName": "polygon"
         },
         {
           "attributes": [
@@ -16,15 +16,51 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "AdminQueriesf97b2bef"
+          "resourceName": "AdminQueriesc354ea72"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
+    },
+    "polygon": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "polygon"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2024-07-24T05:48:35.990Z",
+                "apiKeyExpirationDays": 365,
+                "description": "Polygon API Key"
+              },
+              "authenticationType": "API_KEY"
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authpolygon"
+            }
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
     }
   },
   "auth": {
-    "polygond185e634": {
+    "polygon": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -62,7 +98,7 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "polygond185e634"
+          "resourceName": "polygon"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -70,7 +106,7 @@
     }
   },
   "function": {
-    "AdminQueriesf97b2bef": {
+    "AdminQueriesc354ea72": {
       "build": true,
       "dependsOn": [
         {
@@ -78,7 +114,7 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "polygond185e634"
+          "resourceName": "polygon"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -86,27 +122,27 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_polygond185e634_googleClientId": {
+    "AMPLIFY_auth_polygon_googleClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "polygond185e634"
+          "resourceName": "polygon"
         }
       ]
     },
-    "AMPLIFY_function_AdminQueriesf97b2bef_deploymentBucketName": {
+    "AMPLIFY_function_AdminQueriesc354ea72_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesf97b2bef"
+          "resourceName": "AdminQueriesc354ea72"
         }
       ]
     },
-    "AMPLIFY_function_AdminQueriesf97b2bef_s3Key": {
+    "AMPLIFY_function_AdminQueriesc354ea72_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesf97b2bef"
+          "resourceName": "AdminQueriesc354ea72"
         }
       ]
     }

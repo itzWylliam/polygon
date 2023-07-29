@@ -4,7 +4,7 @@ class SignUpEntry {
 
   SignUpEntry({
     required this.email,
-    required this.password,
+    this.password,
     required this.phoneNum,
     required this.givenName,
     required this.lastName,
@@ -15,7 +15,7 @@ class SignUpEntry {
   final String email;
   final String givenName;
   final String lastName;
-  final String password;
+  String? password;
   final String phoneNum;
   String? nickname;
   BuildContext? context;

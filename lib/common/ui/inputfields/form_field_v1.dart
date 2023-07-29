@@ -3,8 +3,8 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:polygon/common/utils/input_field_validator.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/common/utils/validation/input_field_validator.dart';
+import 'package:polygon/common/utils/enum_constants/specific_field_val.dart';
 
 // REFERENCE: https://github.com/hosain-mohamed/animated_flow/blob/main/lib/presentation/widgets/email_field.dart
 
@@ -63,6 +63,13 @@ class _formFieldState extends State<FormFieldV1> with TickerProviderStateMixin {
   late double phoneFieldPadding = 0.0;
 
   FocusNode currentFocus = FocusNode();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+    formFieldController.dispose();
+  }
 
   @override
   void initState() {

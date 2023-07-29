@@ -1,27 +1,26 @@
 import 'package:phone_number/phone_number.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/common/utils/enum_constants/specific_field_val.dart';
 import 'package:string_validator/string_validator.dart';
 
+
+// TODO: check user data info duplication
 Future<bool> validateInput(
   SpecificFieldValueType specificValueType,
   String value,
 ) async {
-  if (specificValueType != SpecificFieldValueType.nickname && value == '') {
-    return false;
-  }
 
   switch (specificValueType) {
     case SpecificFieldValueType.email:
-      return isEmail(value);
+      return isEmail(value) && value.trim() != '';
     case SpecificFieldValueType.password:
-      return isAcceptablePassword(value);
+      return isAcceptablePassword(value) && value.trim() != '';
     case SpecificFieldValueType.phonenumber:
-      return await PhoneNumberUtil().validate(value);
+      return await PhoneNumberUtil().validate(value) && value.trim() != '';
 
     case SpecificFieldValueType.name:
-      return isAlpha(value.replaceAll(RegExp(r"\s+"), ""));
+      return isAlpha(value.replaceAll(RegExp(r"\s+"), "")) && value.trim() != '';
     case SpecificFieldValueType.nickname:
-      return isAlphanumeric(value.replaceAll(RegExp(r"\s+"), ""));
+      return isAlphanumeric(value.replaceAll(RegExp(r"\s+"), "")) || value.trim() == '';
     default:
       return true;
   }

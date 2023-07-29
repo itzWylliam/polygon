@@ -1,0 +1,290 @@
+enum Category {
+  ART
+  ELECTRONICS
+  MUSIC
+  TRAVEL_PACKAGE
+  HISTORICAL_COLLECTION
+  OTHER
+}
+
+type Item
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "currentOwnerUser"
+        operations: [read, update, create]
+      }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: Content!
+  base_price: Float!
+  uploadedAt: AWSDateTime!
+  category: Category!
+  AuctionHistory: [Auction!] @manyToMany(relationName: "ItemAuction")
+  posts: [Post!] @manyToMany(relationName: "postOnItem")
+  comments: [Comment!]
+    @hasMany(indexName: "byCommentReceiverItem", fields: ["id"])
+  ownerships: [Ownership!] @hasMany(indexName: "byItem", fields: ["id"])
+  currentOwnerUser: ID! @index(name: "byItemOwner")
+}
+
+type Chat
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "participantUsers"
+        operations: [create, read, update]
+      }
+    ]
+  ) {
+  id: ID!
+  title: String
+  createAt: AWSDateTime!
+  active: Boolean!
+    @auth(
+      rules: [
+        {
+          allow: owner
+          ownerField: "chatAdminUsers"
+          operations: [read, update]
+        }
+        { allow: private, operations: [read] }
+      ]
+    )
+  messages: [Message!] @hasMany(indexName: "byMessageOfChat", fields: ["id"])
+  participantUsers: [User!] @manyToMany(relationName: "ChatMembers")
+  chatAdminUsers: [User!]!
+    @manyToMany(relationName: "UserChatOwner")
+    @auth(
+      rules: [
+        {
+          allow: owner
+          ownerField: "chatAdminUsers"
+          operations: [read, update]
+        }
+      ]
+    )
+}
+
+type Content {
+  media_url: [String!]
+  description: String
+}
+
+type Message
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "ownerUser"
+        operations: [read, create, update]
+      }
+    ]
+  ) {
+  id: ID!
+  content: Content!
+  deleted: Boolean!
+  author: ID! @index(name: "byMessageAuthor")
+  chat: ID! @index(name: "byMessageOfChat")
+}
+
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read, update] }
+      {
+        allow: owner
+        ownerField: "postOwnerUser"
+        operations: [create, read, update]
+      }
+    ]
+  ) {
+  id: ID!
+  media_url: Content!
+  createAt: AWSDateTime!
+  like: Int!
+  deleted: Boolean!
+  author: ID! @index(name: "byPostAuthor")
+  comments: [Comment!]
+    @hasMany(indexName: "byCommentReceiverPost", fields: ["id"])
+  items: [Item!] @manyToMany(relationName: "postOnItem")
+}
+
+type CommentTarget {
+  userID: String
+  itemID: String
+  postID: String
+}
+
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+      { allow: owner, ownerField: "author", operations: [read, create, update] }
+    ]
+  ) {
+  id: ID!
+  content: Content!
+  createAt: AWSDateTime!
+  parentCommentID: String
+  root_comment: Boolean!
+  targetID: CommentTarget!
+  deleted: Boolean!
+  author: ID! @index(name: "byCommentAuthor")
+  targetUser: ID @index(name: "byCommentReceiverUser")
+  targetPost: ID @index(name: "byCommentReceiverPost")
+  targetItem: ID @index(name: "byCommentReceiverItem")
+}
+
+type Bid
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+      { allow: owner, ownerField: "bidder", operations: [create, read, update] }
+    ]
+  ) {
+  id: ID!
+  bid_price: Float!
+  bid_time: AWSDateTime!
+  bid_description: String
+  bid_status: BidStatus!
+  bidder: ID!
+    @index(name: "byBidder")
+    @auth(
+      rules: [
+        { allow: public, operations: [read] }
+        { allow: private, operations: [read] }
+        {
+          allow: owner
+          ownerField: "bidder"
+          operations: [create, read, update]
+        }
+      ]
+    )
+  auction: ID! @index(name: "byAuction")
+}
+
+type Ownership
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "ownerUser"
+        operations: [read, create, update]
+      }
+    ]
+  ) {
+  id: ID!
+  possessed: Boolean!
+  possessAt: AWSDateTime!
+    @auth(
+      rules: [
+        { allow: public, operations: [read] }
+        { allow: private, operations: [read] }
+        {
+          allow: owner
+          ownerField: "ownerUser"
+          operations: [read, create, update]
+        }
+      ]
+    )
+  item: ID! @index(name: "byItem")
+  ownerUser: User! @hasOne
+}
+
+enum BidStatus {
+  ACTIVE
+  WITHDRAWN
+  NULLIFIED
+}
+
+enum AuctionStatus {
+  IN_PROGRESS
+  FINALISING
+  CLOSED
+  TERMINATED_BY_USER
+  TERMINATED_BY_POLYGON
+  COUNTDOWN
+}
+
+type Auction
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read, update] }
+      {
+        allow: owner
+        ownerField: "hostUser"
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  status: AuctionStatus!
+  hostUser: ID! @index(name: "byAucHost")
+  Bids: [Bid!] @hasMany(indexName: "byAuction", fields: ["id"])
+  items: [Item!] @manyToMany(relationName: "ItemAuction")
+}
+
+enum AuthMethod {
+  MANUAL
+  GOOGLE
+  GITHUB
+  AMAZON
+  FACEBOOK
+  APPLE
+}
+
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      {
+        allow: owner
+        ownerField: "cognito_ID"
+        operations: [read, update, delete, create]
+      }
+    ]
+  ) {
+  id: ID!
+  email: AWSEmail!
+  phone_number: String!
+  first_name: String!
+  last_name: String!
+  nickname: String
+  password: String
+  email_verified: Boolean!
+  cognito_ID: String!
+  active: Boolean!
+  verified: Boolean!
+  auth_method: AuthMethod!
+  messages: [Message!] @hasMany(indexName: "byMessageAuthor", fields: ["id"])
+  auctions: [Auction!] @hasMany(indexName: "byAucHost", fields: ["id"])
+  bids: [Bid!] @hasMany(indexName: "byBidder", fields: ["id"])
+  chats: [Chat!] @manyToMany(relationName: "ChatMembers")
+  ownedChats: [Chat!] @manyToMany(relationName: "UserChatOwner")
+  currentItemOwner: [Item!] @hasMany(indexName: "byItemOwner", fields: ["id"])
+  ownedComments: [Comment!]
+    @hasMany(indexName: "byCommentAuthor", fields: ["id"])
+}

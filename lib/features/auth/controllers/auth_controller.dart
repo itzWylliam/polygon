@@ -67,6 +67,10 @@ class AuthController {
     return ref.read(authRepositoryProvider).getCurrentUser();
   }
 
+  Future<SignOutResult> signOut() async {
+    return ref.read(authRepositoryProvider).signOut();
+  }
+
   Future<void> deactivateUser() async {
     await ref.read(authRepositoryProvider).deactivateUser();
   }
@@ -77,5 +81,9 @@ class AuthController {
 
   Future<SignUpResult?> confirmUser(String username, String code) async {
     return ref.read(authRepositoryProvider).confirmUser(username, code);
+  }
+
+  Future<bool> isUserSignedIn() async {
+    return ref.read(authRepositoryProvider).isUserSignedIn();
   }
 }

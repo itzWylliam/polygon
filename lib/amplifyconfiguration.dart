@@ -1,4 +1,4 @@
-const amplifyconfig = ''' {
+const amplifyconfig = '''{
     "UserAgent": "aws-amplify-cli/2.0",
     "Version": "1.0",
     "api": {
@@ -9,6 +9,13 @@ const amplifyconfig = ''' {
                     "endpoint": "https://hvoak3uhme.execute-api.us-east-1.amazonaws.com/dev",
                     "region": "us-east-1",
                     "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+                },
+                "polygon": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                    "region": "us-east-1",
+                    "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+                    "apiKey": "da2-5k3svjc6qbbnfbclslndj6lnn4"
                 }
             }
         }
@@ -21,31 +28,52 @@ const amplifyconfig = ''' {
                 "IdentityManager": {
                     "Default": {}
                 },
+                "AppSync": {
+                    "Default": {
+                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+                        "ClientDatabasePrefix": "polygon_AMAZON_COGNITO_USER_POOLS"
+                    },
+                    "polygon_API_KEY": {
+                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "API_KEY",
+                        "ApiKey": "da2-5k3svjc6qbbnfbclslndj6lnn4",
+                        "ClientDatabasePrefix": "polygon_API_KEY"
+                    },
+                    "polygon_AWS_IAM": {
+                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "AWS_IAM",
+                        "ClientDatabasePrefix": "polygon_AWS_IAM"
+                    }
+                },
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:0f529188-c766-4ce0-914a-67b85c3ece32",
+                            "PoolId": "us-east-1:5f519e30-55e6-4b48-b370-527090cc9c3d",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_WWGOAZjiV",
-                        "AppClientId": "1s98ergcq4j9uts776qb11gmbu",
+                        "PoolId": "us-east-1_aOmnY5QAN",
+                        "AppClientId": "2orjs8at2ucmq64bold23krkli",
                         "Region": "us-east-1"
                     }
                 },
                 "GoogleSignIn": {
                     "Permissions": "email,profile,openid",
-                    "ClientId-WebApp": "304930360290-rui1slj2o8usd8hbm3t5hhsk91n605nr.apps.googleusercontent.com"
+                    "ClientId-WebApp": "304930360290-o5cgcdmaefoajobbf4rq6fr1rf84ff1m.apps.googleusercontent.com"
                 },
                 "Auth": {
                     "Default": {
                         "OAuth": {
-                            "WebDomain": "polygond185e634-d185e634-dev.auth.us-east-1.amazoncognito.com",
-                            "AppClientId": "1s98ergcq4j9uts776qb11gmbu",
-                            "SignInRedirectURI": "polygon://signin/,polygon://signin/",
+                            "WebDomain": "polygon-dev.auth.us-east-1.amazoncognito.com",
+                            "AppClientId": "2orjs8at2ucmq64bold23krkli",
+                            "SignInRedirectURI": "polygon://signin/",
                             "SignOutRedirectURI": "polygon://signout/",
                             "Scopes": [
                                 "phone",
@@ -56,22 +84,22 @@ const amplifyconfig = ''' {
                             ]
                         },
                         "authenticationFlowType": "USER_SRP_AUTH",
-                        "socialProviders": [
-                            "GOOGLE"
-                        ],
-                        "usernameAttributes": [
-                            "EMAIL"
-                        ],
-                        "signupAttributes": [
-                            "EMAIL"
+                        "mfaConfiguration": "OPTIONAL",
+                        "mfaTypes": [
+                            "SMS"
                         ],
                         "passwordProtectionSettings": {
                             "passwordPolicyMinLength": 8,
                             "passwordPolicyCharacters": []
                         },
-                        "mfaConfiguration": "OPTIONAL",
-                        "mfaTypes": [
-                            "SMS"
+                        "signupAttributes": [
+                            "EMAIL"
+                        ],
+                        "socialProviders": [
+                            "GOOGLE"
+                        ],
+                        "usernameAttributes": [
+                            "EMAIL"
                         ],
                         "verificationMechanisms": [
                             "EMAIL"

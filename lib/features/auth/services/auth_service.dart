@@ -1,16 +1,24 @@
+import 'dart:convert';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
+import 'package:polygon/features/auth/services/auth_store.dart';
+import 'package:polygon/models/ModelProvider.dart';
 
+// NOTE: exporting
 final authServiceProvider = Provider<AuthService>((ref) {
-  final authservice = AuthService();
+  AuthStore authStore = ref.read(authStoreProvider);
+  final authservice = AuthService(authStore);
   return authservice;
 });
 
 class AuthService {
-  AuthService();
+  AuthService(this.authStore);
+
+  final AuthStore authStore;
 
   // NOTE: MANUAL SIGN IN
   // TODO: PARAMETER ******
@@ -44,16 +52,18 @@ class AuthService {
         // additional attributes as needed
       };
 
-      safePrint("Signing up... \n\tDetails:\n\t\tUsername: ${entry.email}\n\t\tEmail: ${entry.email}\n\t\tPassword: ${entry.password}\n\t\tFirst Name: ${entry.givenName}\n\t\tLast Name: ${entry.lastName}");
+      // DEBUG
+      safePrint(
+          "Signing up... \n\tDetails:\n\t\tUsername: ${entry.email}\n\t\tEmail: ${entry.email}\n\t\tPassword: ${entry.password}\n\t\tFirst Name: ${entry.givenName}\n\t\tLast Name: ${entry.lastName}");
 
       final result = await Amplify.Auth.signUp(
         username: entry.email,
-        password: entry.password,
+        password: entry.password!,
         options: SignUpOptions(
           userAttributes: userAttributes,
         ),
       );
-      await _handleSignUpResult(result);
+      await _handleSignUpResult(result, entry: entry);
       safePrint("Sign Up Result: ${result}");
       return result;
     } on AuthException catch (e) {
@@ -94,10 +104,18 @@ class AuthService {
         ),
       );
 
-      safePrint("Sign In Result: $result");
+      // TODO: save user to database
+      // authStore.saveUser(
+      //   userEntry: parseGoogleUserAttribute(await fetchCurrentUserAttributes()),
+      //   method: AuthMethod.GOOGLE,
+      //   cognitoID: parseGoogleCognitoID(await fetchCurrentUserAttributes()),
+      // );
+      
+      authStore.saveOwner();
+
       return result;
     } on AuthException catch (e) {
-      safePrint("Amazon Auth Error: ${e.message}");
+      safePrint("Google Auth Error: ${e.message}");
       return null;
     }
   }
@@ -132,17 +150,36 @@ class AuthService {
   }
 
   Future<AuthUser> getCurrentUser() async {
-    final user = await Amplify.Auth.getCurrentUser();
-    return user;
+    AuthUser user;
+
+    try {
+      user = await Amplify.Auth.getCurrentUser();
+      safePrint("Current User: ${user.toJson()}");
+      return user;
+    } on SignedOutException catch (e) {
+      safePrint("Current User: None");
+      throw e;
+    }
   }
   // TODO: GET USER INFORMATION
 
   // SOURCE: AWS AMPLIFY ---- ---- ----
-  Future<void> _handleSignUpResult(SignUpResult result) async {
+  Future<void> _handleSignUpResult(SignUpResult result,
+      {SignUpEntry? entry}) async {
     switch (result.nextStep.signUpStep) {
       case AuthSignUpStep.confirmSignUp:
         final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
         _handleCodeDelivery(codeDeliveryDetails);
+
+        // TODO: save user to database
+        // authStore.saveUser(
+        //   userEntry: entry!,
+        //   cognitoID: result.userId!,
+        //   method: AuthMethod.MANUAL,
+        // );
+
+        authStore.saveOwner();
+
         break;
       case AuthSignUpStep.done:
         safePrint('Sign up is complete');
@@ -204,6 +241,7 @@ class AuthService {
       // break;
       case AuthSignInStep.confirmSignUp:
         // Resend the sign up code to the registered device.
+        safePrint("Resending verification code...");
         final resendResult = await Amplify.Auth.resendSignUpCode(
           username: username,
         );
@@ -236,5 +274,73 @@ class AuthService {
         safePrint('Successfully reset password');
         break;
     }
+  }
+
+  Future<bool> isUserSignedIn() async {
+    final result = await Amplify.Auth.fetchAuthSession();
+    return result.isSignedIn;
+  }
+
+  // NOTE: no provider reference
+  Future<List<AuthUserAttribute>> fetchCurrentUserAttributes() async {
+    try {
+      final result = await Amplify.Auth.fetchUserAttributes();
+      for (final element in result) {
+        safePrint('key: ${element.userAttributeKey}; value: ${element.value}');
+      }
+      return result;
+    } on AuthException catch (e) {
+      safePrint('Error fetching user attributes: ${e.message}');
+      return [];
+    }
+  }
+
+  SignUpEntry parseGoogleUserAttribute(List<AuthUserAttribute> attributes) {
+    String email = '';
+    String familyName = '';
+    String givenName = '';
+    String cognito_id = '';
+    String phone_number = 'null';
+
+    // NOTE: extracting info from google
+    for (final element in attributes) {
+      switch (element.userAttributeKey.toString()) {
+        case 'email':
+          email = element.value;
+        case 'given_name':
+          givenName = element.value;
+        case 'family_name':
+          familyName = element.value;
+        case 'phone_number':
+          phone_number = element.value;
+        default:
+          continue;
+      }
+    }
+
+    return SignUpEntry(
+      email: email,
+      password: null,
+      phoneNum: phone_number,
+      givenName: givenName,
+      lastName: familyName,
+    );
+  }
+
+  String parseGoogleCognitoID(List<AuthUserAttribute> attributes) {
+    String cognito_id = '';
+
+    safePrint("attributes");
+
+    for (final element in attributes) {
+      switch (element.userAttributeKey.toString()) {
+        case 'identities':
+          Map<String, dynamic> id_info = jsonDecode(element.value. substring(1, element.value.length-1));
+          cognito_id = 'google_${id_info['userId']}';
+        default:
+          continue;
+      }
+    }
+    return cognito_id;
   }
 }

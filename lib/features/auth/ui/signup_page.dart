@@ -6,13 +6,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:polygon/common/navigation/routes.dart';
-import 'package:polygon/common/ui/basic_inputfield_v1.dart';
+import 'package:polygon/common/ui/inputfields/basic_inputfield_v1.dart';
 import 'package:polygon/common/utils/animation/shake_widget.dart';
-import 'package:polygon/common/utils/input_field_validator.dart';
-import 'package:polygon/common/utils/specific_field_val.dart';
+import 'package:polygon/common/utils/validation/input_field_validator.dart';
+import 'package:polygon/common/utils/enum_constants/specific_field_val.dart';
 import 'package:polygon/features/auth/controllers/auth_controller.dart';
 import 'package:polygon/features/auth/ui/model/signup_steps.dart';
-import 'package:polygon/features/auth/ui/verify_dialog.dart';
+import 'package:polygon/features/auth/ui/components/verify_dialog.dart';
 
 class SignUpPage extends StatefulHookConsumerWidget {
   const SignUpPage({super.key});
@@ -136,6 +136,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     emailField = BasicInputFieldV1(
       textController: emailController,
       labelText: "Email",
+      specificFieldValueType: SpecificFieldValueType.email,
       onTextChanged: (value) async {
         // PENDING
         // setState(() {
@@ -146,6 +147,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     );
     passwordField = BasicInputFieldV1(
       textController: passwordController,
+      specificFieldValueType: SpecificFieldValueType.password,
       labelText: "Password",
       onTextChanged: (value) {
         // PENDING
@@ -191,6 +193,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     firstNameField = BasicInputFieldV1(
       textController: firstNameController,
       width: 120,
+      specificFieldValueType: SpecificFieldValueType.name,
       labelText: "First Name",
       onTextChanged: (value) {
         // PENDING
@@ -203,6 +206,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     lastNameField = BasicInputFieldV1(
       textController: lastNameController,
       width: 120,
+      specificFieldValueType: SpecificFieldValueType.name,
       labelText: "Last Name",
       onTextChanged: (value) {
         // PENDING
@@ -215,6 +219,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     nickNameField = BasicInputFieldV1(
       textController: nickNameController,
       labelText: "Nickname (Optional)",
+      specificFieldValueType: SpecificFieldValueType.nickname,
       onTextChanged: (value) {
         // PENDING
         // setState(() {
@@ -575,7 +580,7 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        context.pop();
+                        context.goNamed(PolygonRoute.signin.name);
                       },
                       child: const Align(
                         alignment: Alignment.topLeft,
@@ -788,11 +793,6 @@ class _signUpPageState extends ConsumerState<SignUpPage> {
     }
 
     return result;
-
-    showDialog(
-      context: context,
-      builder: (context) => confirmSignUpDialog,
-    );
   }
 
   void showLoading() {
