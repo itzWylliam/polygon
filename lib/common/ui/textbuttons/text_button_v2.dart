@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TextButtonV2 extends HookConsumerWidget {
-  TextButtonV2({
+  const TextButtonV2({
     super.key,
     required this.onTap,
     required this.componentOpacity,
     required this.text,
     this.width = 230,
     this.height = 75,
+    this.color = Colors.red,
+    this.textStyle,
   });
 
   final void Function()? onTap;
@@ -18,6 +20,8 @@ class TextButtonV2 extends HookConsumerWidget {
   final String text;
   final double width;
   final double height;
+  final Color color;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,16 +33,16 @@ class TextButtonV2 extends HookConsumerWidget {
         child: Opacity(
           opacity: value,
           child: InkWell(
-            child: Container(
+            child: SizedBox(
               height: height,
               width: width,
               child: Text(
                 text,
-                style: TextStyle(
+                style: textStyle == null ? TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: Colors.red,
+                  color: color,
                   fontSize: min<double>(height, width) / 4,
-                ),
+                ) : textStyle,
               ),
             ),
           ),

@@ -37,9 +37,9 @@
           "additionalAuthenticationProviders": [
             {
               "apiKeyConfig": {
-                "apiKeyExpirationDate": "2024-07-24T05:48:35.990Z",
+                "apiKeyExpirationDate": "2024-08-21T22:38:32.802Z",
                 "apiKeyExpirationDays": 365,
-                "description": "Polygon API Key"
+                "description": "polygon auth key"
               },
               "authenticationType": "API_KEY"
             },

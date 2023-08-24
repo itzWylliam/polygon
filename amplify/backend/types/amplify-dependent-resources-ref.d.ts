@@ -26,6 +26,7 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     },
     "userPoolGroups": {
+      "PolygonAdminGroupRole": "string",
       "polygonGroupRole": "string"
     }
   },

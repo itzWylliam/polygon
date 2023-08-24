@@ -200,7 +200,7 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-polygon-dev-162913-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/f6a129089316821e5d1df0994c9a9cae78371c09",
+          "S3DeploymentRootKey": "amplify-appsync-files/c4c0c9815b927fc48fc9438c7fc037c1e73d76bc",
           "env": "dev"
         }
       }
@@ -247,8 +247,8 @@
           "authProvidersUserPool": "Google",
           "audiences": "304930360290-o5cgcdmaefoajobbf4rq6fr1rf84ff1m.apps.googleusercontent.com",
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "userPoolGroupList": "polygon",
-          "adminQueryGroup": "AdminPolygon",
+          "userPoolGroupList": "polygon,PolygonAdmin",
+          "adminQueryGroup": "PolygonAdmin",
           "serviceName": "Cognito",
           "usernameCaseSensitive": false,
           "useEnabledMfas": true,

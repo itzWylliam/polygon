@@ -5,20 +5,20 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
-import 'package:polygon/features/auth/services/auth_store.dart';
+import 'package:polygon/common/services/user_store.dart';
 import 'package:polygon/models/ModelProvider.dart';
 
 // NOTE: exporting
 final authServiceProvider = Provider<AuthService>((ref) {
-  AuthStore authStore = ref.read(authStoreProvider);
+  UserStore authStore = ref.read(authStoreProvider);
   final authservice = AuthService(authStore);
   return authservice;
 });
 
 class AuthService {
-  AuthService(this.authStore);
+  AuthService(this.userStore);
 
-  final AuthStore authStore;
+  final UserStore userStore;
 
   // NOTE: MANUAL SIGN IN
   // TODO: PARAMETER ******
@@ -63,8 +63,8 @@ class AuthService {
           userAttributes: userAttributes,
         ),
       );
-      await _handleSignUpResult(result, entry: entry);
-      safePrint("Sign Up Result: ${result}");
+      await _handleManualSignUpResult(result, entry: entry);
+      safePrint("Sign Up Result: $result");
       return result;
     } on AuthException catch (e) {
       safePrint('User Sign Up Error: ${e.message}');
@@ -104,14 +104,22 @@ class AuthService {
         ),
       );
 
-      // TODO: save user to database
-      // authStore.saveUser(
-      //   userEntry: parseGoogleUserAttribute(await fetchCurrentUserAttributes()),
-      //   method: AuthMethod.GOOGLE,
-      //   cognitoID: parseGoogleCognitoID(await fetchCurrentUserAttributes()),
-      // );
-      
-      authStore.saveOwner();
+      final user = await getCurrentUser();
+
+      final userAttributes = await Amplify.Auth.fetchUserAttributes();
+      SignUpEntry userEntry = SignUpEntry(
+          email: userAttributes[6].value,
+          phoneNum: '',
+          givenName: userAttributes[4].value,
+          lastName: userAttributes[5].value,
+        );
+      if (await userStore.getUser(cognito_ID: user.userId) == null) {
+        userStore.saveUser(
+          userEntry: userEntry,
+          cognitoID: user.userId,
+          method: AuthMethod.GOOGLE,
+        );
+      }
 
       return result;
     } on AuthException catch (e) {
@@ -143,6 +151,7 @@ class AuthService {
     //   safePrint("Delete User Error - - - ${e.message}");
     // }
   }
+
   Future<bool> deleteUser() async {
     // TODO: check if user has made a transaction or listing then decide if user shall be deleted or deactivated
     // FIXME: ADD LOGIC
@@ -154,17 +163,17 @@ class AuthService {
 
     try {
       user = await Amplify.Auth.getCurrentUser();
-      safePrint("Current User: ${user.toJson()}");
+      // safePrint("Current User: ${user.toJson()}");
       return user;
-    } on SignedOutException catch (e) {
+    } on SignedOutException {
       safePrint("Current User: None");
-      throw e;
+      rethrow;
     }
   }
   // TODO: GET USER INFORMATION
 
   // SOURCE: AWS AMPLIFY ---- ---- ----
-  Future<void> _handleSignUpResult(SignUpResult result,
+  Future<void> _handleManualSignUpResult(SignUpResult result,
       {SignUpEntry? entry}) async {
     switch (result.nextStep.signUpStep) {
       case AuthSignUpStep.confirmSignUp:
@@ -172,13 +181,12 @@ class AuthService {
         _handleCodeDelivery(codeDeliveryDetails);
 
         // TODO: save user to database
-        // authStore.saveUser(
-        //   userEntry: entry!,
-        //   cognitoID: result.userId!,
-        //   method: AuthMethod.MANUAL,
-        // );
-
-        authStore.saveOwner();
+        final user = await getCurrentUser();
+        userStore.saveUser(
+          userEntry: entry!,
+          cognitoID: user.userId,
+          method: AuthMethod.MANUAL,
+        );
 
         break;
       case AuthSignUpStep.done:
@@ -198,7 +206,7 @@ class AuthService {
       );
       // Check if further confirmations are needed or if
       // the sign up is complete.
-      await _handleSignUpResult(result);
+      await _handleManualSignUpResult(result);
       return result;
     } on AuthException catch (e) {
       safePrint('Error confirming user: ${e.message}');
@@ -276,6 +284,11 @@ class AuthService {
     }
   }
 
+  // Future<User> getLocalUser() async {
+  //   final user = await userStore.getUser(cognito_ID: await fetchCurrentUserAttributes()[]);
+  //   return user;
+  // }
+
   Future<bool> isUserSignedIn() async {
     final result = await Amplify.Auth.fetchAuthSession();
     return result.isSignedIn;
@@ -299,8 +312,8 @@ class AuthService {
     String email = '';
     String familyName = '';
     String givenName = '';
-    String cognito_id = '';
-    String phone_number = 'null';
+    String cognitoId = '';
+    String phoneNumber = 'null';
 
     // NOTE: extracting info from google
     for (final element in attributes) {
@@ -312,7 +325,7 @@ class AuthService {
         case 'family_name':
           familyName = element.value;
         case 'phone_number':
-          phone_number = element.value;
+          phoneNumber = element.value;
         default:
           continue;
       }
@@ -321,26 +334,27 @@ class AuthService {
     return SignUpEntry(
       email: email,
       password: null,
-      phoneNum: phone_number,
+      phoneNum: phoneNumber,
       givenName: givenName,
       lastName: familyName,
     );
   }
 
   String parseGoogleCognitoID(List<AuthUserAttribute> attributes) {
-    String cognito_id = '';
+    String cognitoId = '';
 
     safePrint("attributes");
 
     for (final element in attributes) {
       switch (element.userAttributeKey.toString()) {
         case 'identities':
-          Map<String, dynamic> id_info = jsonDecode(element.value. substring(1, element.value.length-1));
-          cognito_id = 'google_${id_info['userId']}';
+          Map<String, dynamic> idInfo =
+              jsonDecode(element.value.substring(1, element.value.length - 1));
+          cognitoId = 'google_${idInfo['userId']}';
         default:
           continue;
       }
     }
-    return cognito_id;
+    return cognitoId;
   }
 }

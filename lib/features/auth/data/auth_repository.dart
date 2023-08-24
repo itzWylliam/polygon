@@ -2,6 +2,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:polygon/features/auth/controllers/model/signin_entry_model.dart';
 import 'package:polygon/features/auth/controllers/model/signup_entry_model.dart';
 import 'package:polygon/features/auth/services/auth_service.dart';
+import 'package:polygon/models/ModelProvider.dart';
 import 'package:riverpod/riverpod.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -55,4 +56,7 @@ class AuthRepository {
   Future<bool> isUserSignedIn() async {
     return authService.isUserSignedIn();
   }
+
+  // TODO: add getLocalUser() -> return User object
+
 }

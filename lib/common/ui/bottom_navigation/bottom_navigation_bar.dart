@@ -1,4 +1,3 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polygon/common/ui/bottom_navigation/nav_bar_notifier.dart';

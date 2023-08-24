@@ -57,9 +57,10 @@
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "userPoolGroupList": [
-      "polygon"
+      "polygon",
+      "PolygonAdmin"
     ],
-    "adminQueryGroup": "AdminPolygon",
+    "adminQueryGroup": "PolygonAdmin",
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,

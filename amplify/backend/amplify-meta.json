@@ -17,19 +17,19 @@
       "authorizationType": "AMAZON_COGNITO_USER_POOLS",
       "dependsOn": [
         {
+          "category": "auth",
+          "resourceName": "polygon",
           "attributes": [
             "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "polygon"
+          ]
         },
         {
+          "category": "function",
+          "resourceName": "AdminQueriesc354ea72",
           "attributes": [
             "Arn",
             "Name"
-          ],
-          "category": "function",
-          "resourceName": "AdminQueriesc354ea72"
+          ]
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -39,56 +39,56 @@
         "RootUrl": "https://hvoak3uhme.execute-api.us-east-1.amazonaws.com/dev",
         "ApiId": "hvoak3uhme"
       },
-      "lastPushTimeStamp": "2023-07-25T07:31:28.781Z",
+      "lastPushTimeStamp": "2023-08-22T23:33:34.509Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
         "logicalId": "apiAdminQueries"
       }
     },
     "polygon": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
+          "category": "auth",
+          "resourceName": "polygon",
           "attributes": [
             "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "polygon"
+          ]
         }
       ],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "API_KEY",
-              "apiKeyConfig": {
-                "apiKeyExpirationDays": 365,
-                "apiKeyExpirationDate": "2024-07-24T05:48:35.990Z",
-                "description": "Polygon API Key"
-              }
-            },
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ],
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
               "userPoolId": "authpolygon"
             }
-          }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 365,
+                "apiKeyExpirationDate": "2024-08-21T22:38:32.802Z",
+                "description": "polygon auth key"
+              }
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
         },
-        "GraphQLAPIIdOutput": "lbgatl5mdrdubhs6tvgvcplnhy",
-        "GraphQLAPIEndpointOutput": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
-        "GraphQLAPIKeyOutput": "da2-5k3svjc6qbbnfbclslndj6lnn4"
+        "GraphQLAPIIdOutput": "e77trcgyifbvhmgz6xriqqhlnu",
+        "GraphQLAPIEndpointOutput": "https://26o6hkhptnfttce23jvgofrzwq.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-a37d7fd7hvbrvicqyehs2jn23e"
       },
-      "providerPlugin": "awscloudformation",
-      "service": "AppSync",
-      "lastPushTimeStamp": "2023-07-25T07:31:28.783Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apipolygon"
       },
-      "lastPushDirHash": "FWLrxoaRMfcA7GP4ZRV24qZgHyY="
+      "lastPushTimeStamp": "2023-08-23T00:24:00.392Z",
+      "lastPushDirHash": "AmAMt6wCXiDdZ7vxVYuwbnLbvI0="
     }
   },
   "auth": {
@@ -132,11 +132,12 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"polygon://signin/\"],\"LogoutURLs\":[\"polygon://signout/\"]}",
         "UserPoolName": "polygondf52f27d_userpool_df52f27d"
       },
-      "lastPushTimeStamp": "2023-07-25T07:31:28.785Z",
+      "lastPushTimeStamp": "2023-08-22T23:33:34.511Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/polygon-cloudformation-template.json",
         "logicalId": "authpolygon"
-      }
+      },
+      "lastPushDirHash": "jkScOf7Y5Q8r3jVI+Nj2bqZ7XEU="
     },
     "userPoolGroups": {
       "dependsOn": [
@@ -154,13 +155,15 @@
       "providerPlugin": "awscloudformation",
       "service": "Cognito-UserPool-Groups",
       "output": {
-        "polygonGroupRole": "arn:aws:iam::470739242818:role/us-east-1_aOmnY5QAN-polygonGroupRole"
+        "polygonGroupRole": "arn:aws:iam::470739242818:role/us-east-1_aOmnY5QAN-polygonGroupRole",
+        "PolygonAdminGroupRole": "arn:aws:iam::470739242818:role/us-east-1_aOmnY5QAN-PolygonAdminGroupRole"
       },
-      "lastPushTimeStamp": "2023-07-25T07:31:33.349Z",
+      "lastPushTimeStamp": "2023-08-22T23:33:37.165Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
         "logicalId": "authuserPoolGroups"
-      }
+      },
+      "lastPushDirHash": "fIhcREMOaALHm0bw/kB7269KcaE="
     }
   },
   "function": {
@@ -184,7 +187,7 @@
         "Name": "AdminQueriesc354ea72-dev",
         "LambdaExecutionRole": "AdminQueriesc354ea72LambdaRole-dev"
       },
-      "lastPushTimeStamp": "2023-07-25T07:31:28.789Z",
+      "lastPushTimeStamp": "2023-08-22T23:33:34.513Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-polygon-dev-162913-deployment/amplify-cfn-templates/function/AdminQueriesc354ea72-cloudformation-template.json",
         "logicalId": "functionAdminQueriesc354ea72"

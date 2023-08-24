@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchField extends StatefulHookConsumerWidget {
+  const SearchField({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _searchFieldState();
 }

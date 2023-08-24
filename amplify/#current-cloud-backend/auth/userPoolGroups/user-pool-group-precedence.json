@@ -2,5 +2,9 @@
   {
     "groupName": "polygon",
     "precedence": 1
+  },
+  {
+    "groupName": "PolygonAdmin",
+    "precedence": 2
   }
 ]

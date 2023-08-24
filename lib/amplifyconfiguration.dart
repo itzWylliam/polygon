@@ -12,10 +12,10 @@ const amplifyconfig = '''{
                 },
                 "polygon": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                    "endpoint": "https://26o6hkhptnfttce23jvgofrzwq.appsync-api.us-east-1.amazonaws.com/graphql",
                     "region": "us-east-1",
                     "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-                    "apiKey": "da2-5k3svjc6qbbnfbclslndj6lnn4"
+                    "apiKey": "da2-a37d7fd7hvbrvicqyehs2jn23e"
                 }
             }
         }
@@ -30,20 +30,20 @@ const amplifyconfig = '''{
                 },
                 "AppSync": {
                     "Default": {
-                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "ApiUrl": "https://26o6hkhptnfttce23jvgofrzwq.appsync-api.us-east-1.amazonaws.com/graphql",
                         "Region": "us-east-1",
                         "AuthMode": "AMAZON_COGNITO_USER_POOLS",
                         "ClientDatabasePrefix": "polygon_AMAZON_COGNITO_USER_POOLS"
                     },
                     "polygon_API_KEY": {
-                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "ApiUrl": "https://26o6hkhptnfttce23jvgofrzwq.appsync-api.us-east-1.amazonaws.com/graphql",
                         "Region": "us-east-1",
                         "AuthMode": "API_KEY",
-                        "ApiKey": "da2-5k3svjc6qbbnfbclslndj6lnn4",
+                        "ApiKey": "da2-a37d7fd7hvbrvicqyehs2jn23e",
                         "ClientDatabasePrefix": "polygon_API_KEY"
                     },
                     "polygon_AWS_IAM": {
-                        "ApiUrl": "https://5dyhsgdt6rarxe7jhyjb34pkae.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "ApiUrl": "https://26o6hkhptnfttce23jvgofrzwq.appsync-api.us-east-1.amazonaws.com/graphql",
                         "Region": "us-east-1",
                         "AuthMode": "AWS_IAM",
                         "ClientDatabasePrefix": "polygon_AWS_IAM"

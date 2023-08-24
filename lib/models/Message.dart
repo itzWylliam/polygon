@@ -220,7 +220,7 @@ class Message extends amplify_core.Model {
         ]),
       amplify_core.AuthRule(
         authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "ownerUser",
+        ownerField: "author",
         identityClaim: "cognito:username",
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [

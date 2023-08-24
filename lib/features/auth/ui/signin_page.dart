@@ -22,12 +22,6 @@ double _elementOpacity = 1;
 
 // REFERENCE: https://github.com/hosain-mohamed/animated_flow.git
 
-late FormFieldV1 passwordField;
-late FormFieldV1 phoneNumField;
-late FormFieldV1 emailField;
-
-late VerifyDialog confirmSignUpDialog;
-
 class SignInPage extends StatefulHookConsumerWidget {
   const SignInPage({super.key});
 
@@ -36,12 +30,29 @@ class SignInPage extends StatefulHookConsumerWidget {
 }
 
 class SignInConsumerState extends ConsumerState<SignInPage> {
-  late TextEditingController phoneNumFieldController;
+
+  // NOTE: FormFieldV1 contains errors when navigating back to sign in page. TO BE RESOLVED...
+  late FormFieldV1 passwordField;
+  late FormFieldV1 emailField;
+  // PENDING
+  // late FormFieldV1 phoneNumField;
+
+  late TextButtonV1 signInButton;
+  late TextButtonV1 signUpButton;
+  late SignInButton googleSignInButton;
+
+  late Container welcomeContainer;
+  late Row iconWidgetRow;
+
+  late VerifyDialog confirmSignUpDialog;
+
+  // PENDING
+  // late TextEditingController phoneNumFieldController;
+
   late TextEditingController passwordFieldController;
   late TextEditingController emailFieldController;
   late TextEditingController _verifyController;
 
-  late SignInButton googleSignInButton;
   late Widget divider;
   late Widget manualButtons;
   late List<Widget> inputUI;
@@ -49,19 +60,25 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
   @override
   void dispose() {
     super.dispose();
+    safePrint("Disposing sign in components");
     passwordFieldController.dispose();
-    phoneNumFieldController.dispose();
     emailFieldController.dispose();
     _verifyController.dispose();
+    // PENDING
+    // phoneNumFieldController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    phoneNumFieldController = TextEditingController();
+    // PENDING
+    // phoneNumFieldController = TextEditingController();
+
     passwordFieldController = TextEditingController();
     emailFieldController = TextEditingController();
     _verifyController = TextEditingController();
     useEffect(() {
+      _elementOpacity = 1;
+      safePrint("Initializing Sign In Page.");
       divider = Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
@@ -96,151 +113,26 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
         },
         text: "Sign In With Google",
       );
+      passwordField = initializePasswordField();
+      emailField = initializeEmailField();
+      signUpButton = initializeSignUpButton(this.context);
+      signInButton = initializeSignInButton();
+      manualButtons = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          signUpButton,
+          const SizedBox(
+            width: 50,
+          ),
+          signInButton,
+        ],
+      );
+      confirmSignUpDialog = initializeConfirmDialog();
+      iconWidgetRow = initializeIcon();
+      welcomeContainer = initializeWelcome();
 
       return null;
     });
-
-    emailField = FormFieldV1(
-      formFade: _elementOpacity == 0,
-      formFieldController: emailFieldController,
-      formHintText: "Email",
-      specificFieldValueType: SpecificFieldValueType.email,
-    );
-
-    phoneNumField = FormFieldV1(
-      formFade: _elementOpacity == 0,
-      formFieldController: phoneNumFieldController,
-      formHintText: "Phone Number",
-      specificFieldValueType: SpecificFieldValueType.phonenumber,
-    );
-
-    passwordField = FormFieldV1(
-      formFade: _elementOpacity == 0,
-      formFieldController: passwordFieldController,
-      formHintText: "Password",
-      specificFieldValueType: SpecificFieldValueType.password,
-    );
-
-    Container welcomeContainer = Container(
-      padding: const EdgeInsets.only(left: 35),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Welcome,",
-            style: TextStyle(color: Colors.black, fontSize: 35),
-          ),
-          Text(
-            "Sign in to continue",
-            style:
-                TextStyle(color: Colors.black.withOpacity(0.7), fontSize: 25),
-          ),
-        ],
-      ),
-    );
-
-    Row iconWidgetRow = const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.flutter_dash, size: 100, color: Color(0xff21579C)),
-      ],
-    );
-
-    TextButtonV1 signInButton = TextButtonV1(
-      width: 100,
-      height: 50,
-      text: "Login",
-      onTap: () async {
-        _elementOpacity = 0;
-        showLoading();
-
-        if (await validateInput(
-                SpecificFieldValueType.email, emailFieldController.text) &&
-            await passwordFieldController.text != '') {
-          safePrint("Sign in: proceeding");
-          manualSignIn(ref).then((value) {
-            hideLoading();
-          });
-        } else {
-          safePrint(
-              "Sign in: Invalid input \n\temail: ${emailFieldController.text} \n\tpassword: ${passwordFieldController.text}");
-          hideLoading();
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Sign In Unsuccessful"),
-              ),
-            );
-          }
-        }
-      },
-      onAnimationEnd: () async {},
-      componentOpacity: _elementOpacity,
-    );
-
-    TextButtonV1 signUpButton = TextButtonV1(
-      width: 100,
-      height: 50,
-      text: "Join Now",
-      onTap: () async {
-        _elementOpacity = 0;
-        this.context.goNamed(PolygonRoute.signup.name);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => SignUpPage(),
-        //   ),
-        // );
-      },
-      onAnimationEnd: () async {},
-      componentOpacity: _elementOpacity,
-    );
-
-    manualButtons = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        signUpButton,
-        const SizedBox(
-          width: 50,
-        ),
-        signInButton,
-      ],
-    );
-
-    confirmSignUpDialog = VerifyDialog(
-      verifyController: _verifyController,
-      username: emailFieldController.text,
-      onConfirm: (code, ctx) async {
-        final confirmResult = await ref
-            .read(authControllerProvider)
-            .confirmUser(emailFieldController.text, code);
-        if (confirmResult != null) {
-          if (confirmResult.nextStep.signUpStep == AuthSignUpStep.done &&
-              confirmResult.isSignUpComplete) {
-            if (ctx.mounted && context.mounted) {
-              ctx.pop();
-              context.goNamed(PolygonRoute.home.name);
-            }
-          } else {
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Verification failed."),
-                ),
-              );
-            }
-          }
-        } else {
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Verification failed."),
-              ),
-            );
-          }
-        }
-      },
-    );
 
     return LoaderOverlay(
       child: Scaffold(
@@ -328,7 +220,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
 
     if (result != null) {
       if (result.isSignedIn) {
-        safePrint("Manual Sign In Successful: ${result}");
+        safePrint("Manual Sign In Successful: $result");
 
         if (context.mounted) {
           context.goNamed(PolygonRoute.home.name);
@@ -340,7 +232,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
         );
       }
     } else {
-      safePrint("Manual Sign In Failed: ${result}");
+      safePrint("Manual Sign In Failed: $result");
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -351,7 +243,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
       }
     }
 
-    safePrint("Sign in result: \n \t ${result}");
+    safePrint("Sign in result: \n \t $result");
 
     return null;
   }
@@ -368,8 +260,7 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
     safePrint("Pursuing Google Sign In");
 
     showLoading();
-    final result =
-        await ref.read(authControllerProvider).googleSignIn();
+    final result = await ref.read(authControllerProvider).googleSignIn();
     if (result != null && result.isSignedIn) {
       if (context.mounted) {
         hideLoading();
@@ -408,5 +299,169 @@ class SignInConsumerState extends ConsumerState<SignInPage> {
     // setState(() {
     //   _loading = false;
     // });
+  }
+
+  // PENDING
+  // phoneNumField = FormFieldV1(
+  //   formFade: _elementOpacity == 0,
+  //   formFieldController: phoneNumFieldController,
+  //   formHintText: "Phone Number",
+  //   specificFieldValueType: SpecificFieldValueType.phonenumber,
+  // );
+
+  FormFieldV1 initializeEmailField() {
+    // NOTE: TextButtonV1 is rendered but removed instantly after navigating to sign in page
+    return FormFieldV1(
+      formFade: _elementOpacity == 0,
+      formFieldController: emailFieldController,
+      formHintText: "Email",
+      specificFieldValueType: SpecificFieldValueType.email,
+    );
+
+    // return BasicInputFieldV1(
+    //   textController: emailFieldController,
+    //   labelText: "Email",
+    //   specificFieldValueType: SpecificFieldValueType.email,
+    //   onTextChanged: (value) async {
+    //   },
+    // );
+  }
+
+  FormFieldV1 initializePasswordField() {
+    // NOTE: TextButtonV1 is rendered but removed instantly after navigating to sign in page
+    return FormFieldV1(
+      formFade: _elementOpacity == 0,
+      formFieldController: passwordFieldController,
+      formHintText: "Password",
+      specificFieldValueType: SpecificFieldValueType.password,
+    );
+
+    // return BasicInputFieldV1(
+    //   textController: passwordFieldController,
+    //   specificFieldValueType: SpecificFieldValueType.password,
+    //   labelText: "Password",
+    //   onTextChanged: (value) {
+    //   },
+    // );
+  }
+
+  TextButtonV1 initializeSignInButton() {
+    return TextButtonV1(
+      width: 100,
+      height: 50,
+      text: "Login",
+      onTap: () async {
+        _elementOpacity = 0;
+        showLoading();
+
+        if (await validateInput(
+                SpecificFieldValueType.email, emailFieldController.text) &&
+            passwordFieldController.text != '') {
+          safePrint("Sign in: proceeding");
+          manualSignIn(ref).then((value) {
+            hideLoading();
+          });
+        } else {
+          safePrint(
+              "Sign in: Invalid input \n\temail: ${emailFieldController.text} \n\tpassword: ${passwordFieldController.text}");
+          hideLoading();
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Sign In Unsuccessful"),
+              ),
+            );
+          }
+        }
+      },
+      onAnimationEnd: () async {},
+      componentOpacity: _elementOpacity,
+    );
+  }
+
+  TextButtonV1 initializeSignUpButton(BuildContext context) {
+    return TextButtonV1(
+      width: 100,
+      height: 50,
+      text: "Join Now",
+      onTap: () async {
+        _elementOpacity = 0;
+        this.context.goNamed(PolygonRoute.signup.name);
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => SignUpPage(),
+        //   ),
+        // );
+      },
+      onAnimationEnd: () async {},
+      componentOpacity: _elementOpacity,
+    );
+  }
+
+  VerifyDialog initializeConfirmDialog() {
+    return VerifyDialog(
+      verifyController: _verifyController,
+      username: emailFieldController.text,
+      onConfirm: (code, ctx) async {
+        final confirmResult = await ref
+            .read(authControllerProvider)
+            .confirmUser(emailFieldController.text, code);
+        if (confirmResult != null) {
+          if (confirmResult.nextStep.signUpStep == AuthSignUpStep.done &&
+              confirmResult.isSignUpComplete) {
+            if (ctx.mounted && context.mounted) {
+              ctx.pop();
+              context.goNamed(PolygonRoute.home.name);
+            }
+          } else {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Verification failed."),
+                ),
+              );
+            }
+          }
+        } else {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Verification failed."),
+              ),
+            );
+          }
+        }
+      },
+    );
+  }
+
+  Row initializeIcon() {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.flutter_dash, size: 100, color: Color(0xff21579C)),
+      ],
+    );
+  }
+
+  Container initializeWelcome() {
+    return Container(
+      padding: const EdgeInsets.only(left: 35),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Welcome,",
+            style: TextStyle(color: Colors.black, fontSize: 35),
+          ),
+          Text(
+            "Sign in to continue",
+            style:
+                TextStyle(color: Colors.black.withOpacity(0.7), fontSize: 25),
+          ),
+        ],
+      ),
+    );
   }
 }

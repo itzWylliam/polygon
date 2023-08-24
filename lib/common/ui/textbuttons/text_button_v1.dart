@@ -43,41 +43,39 @@ class TextButtonV1 extends HookConsumerWidget {
           child: Material(
             borderRadius: BorderRadius.circular(10),
             elevation: 3,
-            child: InkWell(
-              child: Container(
-                width: width,
-                height: height,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color.fromARGB(255, 224, 227, 231),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      text,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: min(width, height) / 4,
-                      ),
+            child: Container(
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 224, 227, 231),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontSize: min(width, height) / 4,
                     ),
-                    icon == null
-                        ? const SizedBox(
-                            width: 0,
-                          )
-                        : const SizedBox(width: 15),
-                    icon == null
-                        ? const SizedBox(
-                            width: 0,
-                          )
-                        : Icon(
-                            icon,
-                            color: Colors.black,
-                            size: min(width, height) / 2,
-                          ),
-                  ],
-                ),
+                  ),
+                  icon == null
+                      ? const SizedBox(
+                          width: 0,
+                        )
+                      : const SizedBox(width: 15),
+                  icon == null
+                      ? const SizedBox(
+                          width: 0,
+                        )
+                      : Icon(
+                          icon,
+                          color: Colors.black,
+                          size: min(width, height) / 2,
+                        ),
+                ],
               ),
             ),
           ),

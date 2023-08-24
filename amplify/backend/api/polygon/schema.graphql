@@ -85,11 +85,7 @@ type Message
   @auth(
     rules: [
       { allow: private, operations: [read] }
-      {
-        allow: owner
-        ownerField: "ownerUser"
-        operations: [read, create, update]
-      }
+      { allow: owner, ownerField: "author", operations: [read, create, update] }
     ]
   ) {
   id: ID!
@@ -103,6 +99,7 @@ type Post
   @model
   @auth(
     rules: [
+      { allow: public, operations: [read] }
       { allow: private, operations: [read, update] }
       {
         allow: owner
@@ -133,7 +130,7 @@ type Comment
   @auth(
     rules: [
       { allow: public, operations: [read] }
-      { allow: private, operations: [read] }
+      { allow: private, operations: [read, update] }
       { allow: owner, ownerField: "author", operations: [read, create, update] }
     ]
   ) {
@@ -196,17 +193,6 @@ type Ownership
   id: ID!
   possessed: Boolean!
   possessAt: AWSDateTime!
-    @auth(
-      rules: [
-        { allow: public, operations: [read] }
-        { allow: private, operations: [read] }
-        {
-          allow: owner
-          ownerField: "ownerUser"
-          operations: [read, create, update]
-        }
-      ]
-    )
   item: ID! @index(name: "byItem")
   ownerUser: User! @hasOne
 }

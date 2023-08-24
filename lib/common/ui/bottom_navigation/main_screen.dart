@@ -1,6 +1,5 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:polygon/common/ui/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:polygon/common/ui/bottom_navigation/nav_bar_notifier.dart';
@@ -31,9 +30,9 @@ class _mainScreenState extends ConsumerState<MainScreen> {
     homePage = HomePage(
       index: ref.read(navigationBarNotifier).index,
     );
-    searchPage = SearchPage();
-    historyPage = HistoryPage();
-    profilePage = ProfilePage();
+    searchPage = const SearchPage();
+    historyPage = const HistoryPage();
+    profilePage = const ProfilePage();
 
     _screens = [
       homePage,
@@ -45,11 +44,10 @@ class _mainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    safePrint("Rebuilding");
     return Container(
       color: Colors.white,
       child: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Scaffold(
             backgroundColor: Colors.white,

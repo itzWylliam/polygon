@@ -86,4 +86,7 @@ class AuthController {
   Future<bool> isUserSignedIn() async {
     return ref.read(authRepositoryProvider).isUserSignedIn();
   }
+
+  // TODO: add getLocalUser() -> return User object
 }
+

@@ -7,21 +7,21 @@
       "mode": "AMAZON_COGNITO_USER_POOLS",
       "cognitoUserPoolId": "authpolygon"
     },
-    "conflictResolution": {
-      "defaultResolutionStrategy": {
-        "type": "OPTIMISTIC_CONCURRENCY"
-      }
-    },
     "additionalAuthTypes": [
       {
         "mode": "API_KEY",
         "expirationTime": 365,
-        "apiKeyExpirationDate": "2024-07-24T05:48:35.990Z",
-        "keyDescription": "Polygon API Key"
+        "apiKeyExpirationDate": "2024-08-21T22:38:32.802Z",
+        "keyDescription": "polygon auth key"
       },
       {
         "mode": "AWS_IAM"
       }
-    ]
+    ],
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "OPTIMISTIC_CONCURRENCY"
+      }
+    }
   }
 }
